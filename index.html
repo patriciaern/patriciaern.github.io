@@ -1,111 +1,750 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Name | Portfolio</title>
+    <title>Patrícia Vergínia Ern | Analytics Engineer</title>
+    <meta
+      name="description"
+      content="Portfólio de Patrícia Vergínia Ern — Analytics Engineer e Analista de Dados com mais de 5 anos de experiência."
+    />
     <style>
+      :root {
+        --bg: #0f172a;
+        --bg-soft: #1e293b;
+        --card: #1e293b;
+        --card-border: #334155;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #22d3ee;
+        --accent-soft: rgba(34, 211, 238, 0.12);
+        --mono: "SFMono-Regular", "Consolas", "Liberation Mono", "Menlo", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: #f5f7fa;
-        color: #333;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.65;
       }
-      header {
-        background: #1e293b;
-        color: white;
-        text-align: center;
-        padding: 3rem 1rem;
-      }
-      header h1 {
-        margin: 0;
-        font-size: 2.5rem;
-      }
-      header p {
-        margin-top: 0.5rem;
-        font-size: 1.2rem;
-        color: #cbd5e1;
-      }
-      nav {
-        margin-top: 1rem;
-      }
-      nav a {
-        color: #93c5fd;
-        margin: 0 10px;
+
+      a {
+        color: var(--accent);
         text-decoration: none;
       }
+
+      /* ---------- Nav ---------- */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.9rem 1.5rem;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      nav .brand {
+        font-family: var(--mono);
+        font-weight: 700;
+        color: var(--text);
+        letter-spacing: 0.5px;
+      }
+
+      nav .brand span {
+        color: var(--accent);
+      }
+
+      nav .links {
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      nav .links a {
+        color: var(--muted);
+        font-size: 0.92rem;
+        transition: color 0.2s;
+      }
+
+      nav .links a:hover {
+        color: var(--accent);
+      }
+
+      .lang-toggle {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        background: transparent;
+        color: var(--text);
+        border: 1px solid var(--card-border);
+        border-radius: 999px;
+        padding: 0.35rem 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .lang-toggle:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .lang-toggle .active {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      /* ---------- Layout ---------- */
       section {
-        max-width: 900px;
-        margin: auto;
-        padding: 2rem 1rem;
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 4rem 1.5rem;
       }
-      .projects {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+      .section-label {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+
+      h2 {
+        font-size: 1.9rem;
+        margin: 0 0 1.5rem;
+      }
+
+      /* ---------- Hero ---------- */
+      header.hero {
+        position: relative;
+        overflow: hidden;
+        padding: 6rem 1.5rem 5rem;
+        text-align: center;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.12), transparent 55%),
+          var(--bg);
+      }
+
+      header.hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--card-border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+        background-size: 44px 44px;
+        opacity: 0.15;
+        mask-image: radial-gradient(circle at 50% 30%, black, transparent 70%);
+        -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 70%);
+        animation: drift 24s linear infinite;
+      }
+
+      @keyframes drift {
+        from {
+          background-position: 0 0, 0 0;
+        }
+        to {
+          background-position: 44px 44px, 44px 44px;
+        }
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .avatar {
+        width: 130px;
+        height: 130px;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+        background: linear-gradient(135deg, var(--accent), #0ea5e9);
+        box-shadow: 0 0 0 6px rgba(34, 211, 238, 0.1);
+      }
+
+      header.hero h1 {
+        font-size: 2.8rem;
+        margin: 0 0 0.5rem;
+      }
+
+      .hero-title {
+        font-family: var(--mono);
+        color: var(--accent);
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-tagline {
+        max-width: 560px;
+        margin: 0 auto 1.75rem;
+        color: var(--muted);
+      }
+
+      .social {
+        display: flex;
         gap: 1rem;
+        justify-content: center;
       }
-      .card {
-        background: white;
-        padding: 1rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+
+      .social a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 1.1rem;
+        border: 1px solid var(--card-border);
+        border-radius: 999px;
+        color: var(--text);
+        font-size: 0.9rem;
+        transition: all 0.2s;
       }
+
+      .social a:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .social svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+      }
+
+      /* ---------- About ---------- */
+      .about p {
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      /* ---------- Skills ---------- */
+      .skill-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .skill-group h3 {
+        font-size: 0.95rem;
+        color: var(--text);
+        margin: 0 0 0.6rem;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .chip {
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        border: 1px solid rgba(34, 211, 238, 0.25);
+        border-radius: 8px;
+        padding: 0.35rem 0.7rem;
+      }
+
+      .chip.neutral {
+        background: rgba(148, 163, 184, 0.1);
+        color: var(--text);
+        border-color: var(--card-border);
+      }
+
+      /* ---------- Experience timeline ---------- */
+      .timeline {
+        position: relative;
+        border-left: 2px solid var(--card-border);
+        margin-left: 0.5rem;
+        padding-left: 1.75rem;
+      }
+
+      .job {
+        position: relative;
+        margin-bottom: 2.25rem;
+      }
+
+      .job::before {
+        content: "";
+        position: absolute;
+        left: -2.18rem;
+        top: 0.35rem;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.15);
+      }
+
+      .job .role {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .job .meta {
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin: 0.2rem 0 0.75rem;
+      }
+
+      .job ul {
+        margin: 0;
+        padding-left: 1.1rem;
+        color: var(--muted);
+      }
+
+      .job li {
+        margin-bottom: 0.4rem;
+      }
+
+      /* ---------- Highlights ---------- */
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.25rem;
+      }
+
+      .metric {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: transform 0.2s, border-color 0.2s;
+      }
+
+      .metric:hover {
+        transform: translateY(-4px);
+        border-color: var(--accent);
+      }
+
+      .metric .num {
+        font-family: var(--mono);
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .metric .desc {
+        color: var(--muted);
+        font-size: 0.92rem;
+        margin-top: 0.4rem;
+      }
+
+      /* ---------- Education ---------- */
+      .edu {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 1.5rem;
+      }
+
+      .edu h3 {
+        margin: 0 0 0.25rem;
+      }
+
+      .edu .meta {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      /* ---------- Footer ---------- */
       footer {
         text-align: center;
-        padding: 2rem 1rem;
-        background: #e2e8f0;
+        padding: 3rem 1.5rem;
+        border-top: 1px solid var(--card-border);
+        background: var(--bg-soft);
+      }
+
+      footer h2 {
+        margin-bottom: 0.75rem;
+      }
+
+      footer p {
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+
+      footer .copyright {
         margin-top: 2rem;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+
+      @media (max-width: 600px) {
+        nav .links a:not(.lang-toggle) {
+          display: none;
+        }
+        header.hero h1 {
+          font-size: 2.1rem;
+        }
+        section {
+          padding: 3rem 1.25rem;
+        }
       }
     </style>
   </head>
   <body>
-    <header>
-      <h1>Your Name</h1>
-      <p>Web Developer | Designer | Creator</p>
-      <nav>
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
+    <nav>
+      <a href="#" class="brand">PE<span>.</span></a>
+      <div class="links">
+        <a href="#about" data-i18n="nav.about">Sobre</a>
+        <a href="#skills" data-i18n="nav.skills">Competências</a>
+        <a href="#experience" data-i18n="nav.experience">Experiência</a>
+        <a href="#contact" data-i18n="nav.contact">Contato</a>
+        <button class="lang-toggle" id="langToggle" aria-label="Toggle language">
+          <span data-lang="pt">PT</span> / <span data-lang="en">EN</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- ---------- Hero ---------- -->
+    <header class="hero">
+      <div class="hero-content">
+        <img class="avatar" src="assets/images/photo.jpg" alt="Patrícia Vergínia Ern" />
+        <h1>Patrícia Vergínia Ern</h1>
+        <div class="hero-title">Analytics Engineer | Data Analyst</div>
+        <p class="hero-tagline" data-i18n="hero.tagline">
+          Mais de 5 anos transformando dados em decisões — modelagem, ETL,
+          governança e BI em ambientes de crédito e serviços financeiros.
+        </p>
+        <div class="social">
+          <a href="https://www.linkedin.com/in/patricia-verginia-ern/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/patriciaern" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.23c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
     </header>
 
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        Hi! I'm a passionate developer who loves building clean, user-friendly
-        websites and applications.
+    <!-- ---------- About ---------- -->
+    <section id="about" class="about">
+      <div class="section-label" data-i18n="about.label">Sobre</div>
+      <h2 data-i18n="about.title">Resumo profissional</h2>
+      <p data-i18n="about.p1">
+        Profissional com mais de 5 anos de experiência em dados, atuando nos
+        segmentos de tecnologia, crédito e serviços financeiros. Experiência em
+        construção de soluções analíticas, modelagem de dados, processos ETL,
+        governança de dados e suporte à tomada de decisão.
+      </p>
+      <p data-i18n="about.p2">
+        Perfil analítico, com capacidade de traduzir necessidades de negócio em
+        soluções baseadas em dados, garantindo qualidade e confiabilidade das
+        informações. Objetivo profissional: atuar como Analytics Engineer.
       </p>
     </section>
 
-    <section id="projects">
-      <h2>Projects</h2>
-      <div class="projects">
-        <div class="card">
-          <h3>Project One</h3>
-          <p>Short description of your project goes here.</p>
+    <!-- ---------- Skills ---------- -->
+    <section id="skills">
+      <div class="section-label" data-i18n="skills.label">Competências</div>
+      <h2 data-i18n="skills.title">Habilidades & Tecnologias</h2>
+
+      <div class="skill-group">
+        <h3 data-i18n="skills.data">Dados & ETL</h3>
+        <div class="chips">
+          <span class="chip">Databricks</span>
+          <span class="chip">PySpark</span>
+          <span class="chip">Python</span>
+          <span class="chip">Airflow</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Oracle</span>
+          <span class="chip">AWS Athena</span>
         </div>
-        <div class="card">
-          <h3>Project Two</h3>
-          <p>Short description of your project goes here.</p>
+      </div>
+
+      <div class="skill-group">
+        <h3 data-i18n="skills.bi">Business Intelligence</h3>
+        <div class="chips">
+          <span class="chip">Power BI</span>
+          <span class="chip">DAX</span>
+          <span class="chip">Power Query (M)</span>
         </div>
-        <div class="card">
-          <h3>Project Three</h3>
-          <p>Short description of your project goes here.</p>
+      </div>
+
+      <div class="skill-group">
+        <h3 data-i18n="skills.auto">Automação & Versionamento</h3>
+        <div class="chips">
+          <span class="chip">Power Automate</span>
+          <span class="chip">GitHub</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <h3 data-i18n="skills.found">Fundamentos</h3>
+        <div class="chips">
+          <span class="chip neutral" data-i18n="skills.f1">Modelagem de dados</span>
+          <span class="chip neutral" data-i18n="skills.f2">Governança de dados</span>
+          <span class="chip neutral" data-i18n="skills.f3">Machine Learning</span>
+          <span class="chip neutral" data-i18n="skills.f4">Pensamento crítico</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <h3 data-i18n="skills.lang">Idiomas</h3>
+        <div class="chips">
+          <span class="chip neutral" data-i18n="skills.langpt">Português — nativo</span>
+          <span class="chip neutral" data-i18n="skills.langen">Inglês — avançado (C1)</span>
         </div>
       </div>
     </section>
 
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Email: yourname@example.com</p>
-      <p>
-        GitHub:
-        <a href="https://github.com/yourusername">github.com/yourusername</a>
-      </p>
+    <!-- ---------- Experience ---------- -->
+    <section id="experience">
+      <div class="section-label" data-i18n="exp.label">Experiência</div>
+      <h2 data-i18n="exp.title">Trajetória profissional</h2>
+
+      <div class="timeline">
+        <div class="job">
+          <p class="role">Analista de Dados — Viacredi</p>
+          <p class="meta">07/2024 — <span data-i18n="exp.present">atual</span> · Blumenau, SC</p>
+          <ul>
+            <li data-i18n="exp.v1">Análise, transformação e disponibilização de dados de carteira de crédito, risco e comportamento de cooperados em ambiente Databricks.</li>
+            <li data-i18n="exp.v2">Desenvolvimento e otimização de fontes Python, consultas SQL e processos ETL integrando múltiplas fontes corporativas.</li>
+            <li data-i18n="exp.v3">Criação e manutenção de dashboards no Power BI (DAX e Power Query) para KPIs e indicadores de risco.</li>
+            <li data-i18n="exp.v4">Apoio na construção de modelos preditivos de risco de crédito com Machine Learning.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <p class="role">Analista de Dados — Senior Sistemas S/A</p>
+          <p class="meta">10/2023 — 05/2024</p>
+          <ul>
+            <li data-i18n="exp.s1">Consultas e análises em grandes volumes de dados com DBeaver, AWS Athena, Oracle SQL e PySpark.</li>
+            <li data-i18n="exp.s2">Implementação de práticas de governança e gestão de dados no contexto de Recursos Humanos.</li>
+            <li data-i18n="exp.s3">Estruturação de bases analíticas e análises de remuneração e carreira para mais de 2.400 colaboradores.</li>
+            <li data-i18n="exp.s4">Automação de processos com Power Automate, reduzindo atividades manuais e erros operacionais.</li>
+          </ul>
+        </div>
+
+        <div class="job">
+          <p class="role">Analista de Processos de TI — Senior Sistemas S/A</p>
+          <p class="meta">06/2022 — 10/2023 · Blumenau, SC</p>
+          <ul>
+            <li data-i18n="exp.t1">Desenvolvimento de visões no Power BI para tomada de decisão estratégica.</li>
+            <li data-i18n="exp.t2">Construção de um sistema completo de gestão de dados e projetos de melhoria, com dashboards e gamificação.</li>
+            <li data-i18n="exp.t3">Liderança e mentoria de mais de 12 equipes em iniciativas Lean, com ganhos de produtividade superiores a 110%.</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <footer>
-      <p>© 2026 Your Name. All rights reserved.</p>
+    <!-- ---------- Highlights ---------- -->
+    <section id="highlights">
+      <div class="section-label" data-i18n="hl.label">Resultados</div>
+      <h2 data-i18n="hl.title">Principais resultados</h2>
+      <div class="metrics">
+        <div class="metric">
+          <div class="num">2.400+</div>
+          <div class="desc" data-i18n="hl.m1">Colaboradores analisados em projetos de remuneração e carreira</div>
+        </div>
+        <div class="metric">
+          <div class="num">110%+</div>
+          <div class="desc" data-i18n="hl.m2">Ganhos de produtividade em iniciativas de melhoria contínua</div>
+        </div>
+        <div class="metric">
+          <div class="num">12+</div>
+          <div class="desc" data-i18n="hl.m3">Equipes mentoradas em metodologia Lean</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Education ---------- -->
+    <section id="education">
+      <div class="section-label" data-i18n="edu.label">Formação</div>
+      <h2 data-i18n="edu.title">Formação acadêmica</h2>
+      <div class="edu">
+        <h3 data-i18n="edu.degree">Bacharelado em Engenharia Mecânica</h3>
+        <div class="meta">UNIASSELVI</div>
+      </div>
+    </section>
+
+    <!-- ---------- Footer / Contact ---------- -->
+    <footer id="contact">
+      <h2 data-i18n="contact.title">Vamos conversar</h2>
+      <p data-i18n="contact.text">
+        Aberta a oportunidades como Analytics Engineer. Conecte-se comigo.
+      </p>
+      <div class="social">
+        <a href="https://www.linkedin.com/in/patricia-verginia-ern/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.22.79 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/patriciaern" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.23c-3.34.73-4.04-1.42-4.04-1.42-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <p class="copyright">© <span id="year"></span> Patrícia Vergínia Ern</p>
     </footer>
+
+    <script>
+      const translations = {
+        pt: {
+          "nav.about": "Sobre",
+          "nav.skills": "Competências",
+          "nav.experience": "Experiência",
+          "nav.contact": "Contato",
+          "hero.tagline":
+            "Mais de 5 anos transformando dados em decisões — modelagem, ETL, governança e BI em ambientes de crédito e serviços financeiros.",
+          "about.label": "Sobre",
+          "about.title": "Resumo profissional",
+          "about.p1":
+            "Profissional com mais de 5 anos de experiência em dados, atuando nos segmentos de tecnologia, crédito e serviços financeiros. Experiência em construção de soluções analíticas, modelagem de dados, processos ETL, governança de dados e suporte à tomada de decisão.",
+          "about.p2":
+            "Perfil analítico, com capacidade de traduzir necessidades de negócio em soluções baseadas em dados, garantindo qualidade e confiabilidade das informações. Objetivo profissional: atuar como Analytics Engineer.",
+          "skills.label": "Competências",
+          "skills.title": "Habilidades & Tecnologias",
+          "skills.data": "Dados & ETL",
+          "skills.bi": "Business Intelligence",
+          "skills.auto": "Automação & Versionamento",
+          "skills.found": "Fundamentos",
+          "skills.f1": "Modelagem de dados",
+          "skills.f2": "Governança de dados",
+          "skills.f3": "Machine Learning",
+          "skills.f4": "Pensamento crítico",
+          "skills.lang": "Idiomas",
+          "skills.langpt": "Português — nativo",
+          "skills.langen": "Inglês — avançado (C1)",
+          "exp.label": "Experiência",
+          "exp.title": "Trajetória profissional",
+          "exp.present": "atual",
+          "exp.v1":
+            "Análise, transformação e disponibilização de dados de carteira de crédito, risco e comportamento de cooperados em ambiente Databricks.",
+          "exp.v2":
+            "Desenvolvimento e otimização de fontes Python, consultas SQL e processos ETL integrando múltiplas fontes corporativas.",
+          "exp.v3":
+            "Criação e manutenção de dashboards no Power BI (DAX e Power Query) para KPIs e indicadores de risco.",
+          "exp.v4":
+            "Apoio na construção de modelos preditivos de risco de crédito com Machine Learning.",
+          "exp.s1":
+            "Consultas e análises em grandes volumes de dados com DBeaver, AWS Athena, Oracle SQL e PySpark.",
+          "exp.s2":
+            "Implementação de práticas de governança e gestão de dados no contexto de Recursos Humanos.",
+          "exp.s3":
+            "Estruturação de bases analíticas e análises de remuneração e carreira para mais de 2.400 colaboradores.",
+          "exp.s4":
+            "Automação de processos com Power Automate, reduzindo atividades manuais e erros operacionais.",
+          "exp.t1": "Desenvolvimento de visões no Power BI para tomada de decisão estratégica.",
+          "exp.t2":
+            "Construção de um sistema completo de gestão de dados e projetos de melhoria, com dashboards e gamificação.",
+          "exp.t3":
+            "Liderança e mentoria de mais de 12 equipes em iniciativas Lean, com ganhos de produtividade superiores a 110%.",
+          "hl.label": "Resultados",
+          "hl.title": "Principais resultados",
+          "hl.m1": "Colaboradores analisados em projetos de remuneração e carreira",
+          "hl.m2": "Ganhos de produtividade em iniciativas de melhoria contínua",
+          "hl.m3": "Equipes mentoradas em metodologia Lean",
+          "edu.label": "Formação",
+          "edu.title": "Formação acadêmica",
+          "edu.degree": "Bacharelado em Engenharia Mecânica",
+          "contact.title": "Vamos conversar",
+          "contact.text": "Aberta a oportunidades como Analytics Engineer. Conecte-se comigo.",
+        },
+        en: {
+          "nav.about": "About",
+          "nav.skills": "Skills",
+          "nav.experience": "Experience",
+          "nav.contact": "Contact",
+          "hero.tagline":
+            "5+ years turning data into decisions — modeling, ETL, governance, and BI across credit and financial services.",
+          "about.label": "About",
+          "about.title": "Professional summary",
+          "about.p1":
+            "Data professional with 5+ years of experience across technology, credit, and financial services. Skilled in building analytical solutions, data modeling, ETL processes, data governance, and decision support.",
+          "about.p2":
+            "Analytical profile with the ability to translate business needs into data-driven solutions, ensuring quality and reliability of information. Career objective: working as an Analytics Engineer.",
+          "skills.label": "Skills",
+          "skills.title": "Skills & Technologies",
+          "skills.data": "Data & ETL",
+          "skills.bi": "Business Intelligence",
+          "skills.auto": "Automation & Versioning",
+          "skills.found": "Foundations",
+          "skills.f1": "Data modeling",
+          "skills.f2": "Data governance",
+          "skills.f3": "Machine Learning",
+          "skills.f4": "Critical thinking",
+          "skills.lang": "Languages",
+          "skills.langpt": "Portuguese — native",
+          "skills.langen": "English — advanced (C1)",
+          "exp.label": "Experience",
+          "exp.title": "Career timeline",
+          "exp.present": "present",
+          "exp.v1":
+            "Analysis, transformation, and delivery of credit portfolio, risk, and member-behavior data in a Databricks environment.",
+          "exp.v2":
+            "Development and optimization of Python sources, SQL queries, and ETL processes integrating multiple corporate data sources.",
+          "exp.v3":
+            "Built and maintained Power BI dashboards (DAX and Power Query) for KPIs and risk indicators.",
+          "exp.v4":
+            "Supported the development of predictive credit-risk models using Machine Learning.",
+          "exp.s1":
+            "Queries and analysis on large data volumes using DBeaver, AWS Athena, Oracle SQL, and PySpark.",
+          "exp.s2":
+            "Implemented data governance and management practices within Human Resources.",
+          "exp.s3":
+            "Structured analytical bases and compensation/career analyses for 2,400+ employees.",
+          "exp.s4":
+            "Process automation with Power Automate, reducing manual work and operational errors.",
+          "exp.t1": "Developed Power BI views to support strategic decision-making.",
+          "exp.t2":
+            "Built a complete data and project management system for improvement initiatives, with dashboards and gamification.",
+          "exp.t3":
+            "Led and mentored 12+ teams in Lean initiatives, achieving productivity gains above 110%.",
+          "hl.label": "Results",
+          "hl.title": "Key results",
+          "hl.m1": "Employees analyzed in compensation and career projects",
+          "hl.m2": "Productivity gains in continuous improvement initiatives",
+          "hl.m3": "Teams mentored in Lean methodology",
+          "edu.label": "Education",
+          "edu.title": "Academic background",
+          "edu.degree": "Bachelor's in Mechanical Engineering",
+          "contact.title": "Let's talk",
+          "contact.text": "Open to Analytics Engineer opportunities. Let's connect.",
+        },
+      };
+
+      const docLang = { pt: "pt-BR", en: "en" };
+
+      function setLanguage(lang) {
+        const dict = translations[lang];
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (dict[key]) el.textContent = dict[key];
+        });
+        document.documentElement.lang = docLang[lang];
+        document.querySelectorAll("[data-lang]").forEach((el) => {
+          el.classList.toggle("active", el.getAttribute("data-lang") === lang);
+        });
+        localStorage.setItem("lang", lang);
+      }
+
+      const saved = localStorage.getItem("lang") || "pt";
+      setLanguage(saved);
+
+      document.getElementById("langToggle").addEventListener("click", () => {
+        const current = localStorage.getItem("lang") || "pt";
+        setLanguage(current === "pt" ? "en" : "pt");
+      });
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
   </body>
 </html>
