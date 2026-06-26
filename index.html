@@ -362,6 +362,96 @@
         color: var(--muted);
       }
 
+      /* ---------- Live BI ---------- */
+      .bi-intro {
+        color: var(--muted);
+        max-width: 640px;
+        margin: 0 0 2rem;
+      }
+
+      .kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .kpi {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 1.25rem;
+        transition: border-color 0.2s;
+      }
+
+      .kpi:hover {
+        border-color: var(--accent);
+      }
+
+      .kpi-label {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .kpi-value {
+        font-family: var(--mono);
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin: 0.35rem 0 0.15rem;
+        min-height: 2rem;
+      }
+
+      .kpi-value.error {
+        color: #f87171;
+        font-size: 1rem;
+      }
+
+      .kpi-date {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      .chart-card {
+        background: var(--card);
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 1.5rem;
+      }
+
+      .chart-card h3 {
+        margin: 0 0 1rem;
+        font-size: 1rem;
+        color: var(--text);
+      }
+
+      .chart-wrap {
+        position: relative;
+        height: 300px;
+      }
+
+      .bi-status {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin-top: 0.75rem;
+      }
+
+      .bi-status.error {
+        color: #f87171;
+      }
+
+      .bi-status.hidden {
+        display: none;
+      }
+
+      .bi-source {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-top: 1rem;
+      }
+
       /* ---------- Footer ---------- */
       footer {
         text-align: center;
@@ -566,6 +656,51 @@
       </div>
     </section>
 
+    <!-- ---------- Live BI Dashboard ---------- -->
+    <section id="livebi">
+      <div class="section-label" data-i18n="bi.label">Live BI</div>
+      <h2 data-i18n="bi.title">Painel de dados ao vivo</h2>
+      <p class="bi-intro" data-i18n="bi.intro">
+        Indicadores econômicos reais, buscados em tempo real da API do Banco
+        Central do Brasil — um exemplo prático do fluxo ETL → transformação →
+        visualização aplicado ao universo de crédito e risco.
+      </p>
+
+      <div class="kpis" id="biKpis">
+        <div class="kpi" data-series="432" data-unit="% a.a." data-i18n-label="bi.selic">
+          <div class="kpi-label" data-i18n="bi.selic">Taxa Selic</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-series="13522" data-unit="%" data-i18n-label="bi.ipca">
+          <div class="kpi-label" data-i18n="bi.ipca">IPCA (12 meses)</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-series="1" data-unit="R$" data-prefix="true" data-i18n-label="bi.usd">
+          <div class="kpi-label" data-i18n="bi.usd">Dólar (venda)</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-series="21082" data-unit="%" data-i18n-label="bi.default">
+          <div class="kpi-label" data-i18n="bi.default">Inadimplência do crédito</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <h3 data-i18n="bi.charttitle">IPCA — variação mensal (últimos 12 meses)</h3>
+        <div class="chart-wrap"><canvas id="ipcaChart"></canvas></div>
+        <div class="bi-status" id="biStatus" data-i18n="bi.loading">Carregando dados…</div>
+      </div>
+
+      <p class="bi-source">
+        <span data-i18n="bi.source">Fonte</span>:
+        <a href="https://dadosabertos.bcb.gov.br/" target="_blank" rel="noopener">Banco Central do Brasil — SGS</a>
+      </p>
+    </section>
+
     <!-- ---------- Education ---------- -->
     <section id="education">
       <div class="section-label" data-i18n="edu.label">Formação</div>
@@ -595,6 +730,7 @@
       <p class="copyright">© <span id="year"></span> Patrícia Vergínia Ern</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
       const translations = {
         pt: {
@@ -652,6 +788,18 @@
           "hl.m1": "Colaboradores analisados em projetos de remuneração e carreira",
           "hl.m2": "Ganhos de produtividade em iniciativas de melhoria contínua",
           "hl.m3": "Equipes mentoradas em metodologia Lean",
+          "bi.label": "Live BI",
+          "bi.title": "Painel de dados ao vivo",
+          "bi.intro":
+            "Indicadores econômicos reais, buscados em tempo real da API do Banco Central do Brasil — um exemplo prático do fluxo ETL → transformação → visualização aplicado ao universo de crédito e risco.",
+          "bi.selic": "Taxa Selic",
+          "bi.ipca": "IPCA (12 meses)",
+          "bi.usd": "Dólar (venda)",
+          "bi.default": "Inadimplência do crédito",
+          "bi.charttitle": "IPCA — variação mensal (últimos 12 meses)",
+          "bi.loading": "Carregando dados…",
+          "bi.error": "Não foi possível carregar os dados ao vivo.",
+          "bi.source": "Fonte",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -713,6 +861,18 @@
           "hl.m1": "Employees analyzed in compensation and career projects",
           "hl.m2": "Productivity gains in continuous improvement initiatives",
           "hl.m3": "Teams mentored in Lean methodology",
+          "bi.label": "Live BI",
+          "bi.title": "Live data dashboard",
+          "bi.intro":
+            "Real economic indicators fetched live from the Central Bank of Brazil API — a hands-on example of the ETL → transformation → visualization flow applied to the credit and risk domain.",
+          "bi.selic": "Selic rate",
+          "bi.ipca": "Inflation (IPCA, 12m)",
+          "bi.usd": "USD (sell)",
+          "bi.default": "Credit default rate",
+          "bi.charttitle": "IPCA — monthly change (last 12 months)",
+          "bi.loading": "Loading data…",
+          "bi.error": "Could not load live data.",
+          "bi.source": "Source",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -734,10 +894,11 @@
           el.classList.toggle("active", el.getAttribute("data-lang") === lang);
         });
         localStorage.setItem("lang", lang);
+        currentLang = lang;
+        renderChart(); // re-localize month labels if data is loaded
       }
 
-      const saved = localStorage.getItem("lang") || "pt";
-      setLanguage(saved);
+      let currentLang = localStorage.getItem("lang") || "pt";
 
       document.getElementById("langToggle").addEventListener("click", () => {
         const current = localStorage.getItem("lang") || "pt";
@@ -745,6 +906,119 @@
       });
 
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      /* ---------- Live BI: Banco Central do Brasil (SGS API) ---------- */
+      const SGS = "https://api.bcb.gov.br/dados/serie/bcdata.sgs";
+      const MONTHS = {
+        pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
+        en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      };
+      let ipcaData = null; // [{ date: Date, value: Number }]
+      let ipcaChart = null;
+
+      async function fetchSeries(code, count) {
+        const res = await fetch(`${SGS}.${code}/dados/ultimos/${count}?formato=json`);
+        if (!res.ok) throw new Error(`HTTP ${res.status} for series ${code}`);
+        return res.json();
+      }
+
+      function parseBrDate(s) {
+        const [d, m, y] = s.split("/").map(Number);
+        return new Date(y, m - 1, d);
+      }
+
+      function formatValue(raw, unit, prefix) {
+        const n = Number(raw);
+        const num = n.toLocaleString(currentLang === "pt" ? "pt-BR" : "en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+        return prefix ? `${unit} ${num}` : `${num} ${unit}`;
+      }
+
+      async function loadKpis() {
+        const cards = document.querySelectorAll("#biKpis .kpi");
+        await Promise.all(
+          [...cards].map(async (card) => {
+            const code = card.dataset.series;
+            const valueEl = card.querySelector(".kpi-value");
+            const dateEl = card.querySelector(".kpi-date");
+            try {
+              const [point] = await fetchSeries(code, 1);
+              valueEl.textContent = formatValue(point.valor, card.dataset.unit, card.dataset.prefix);
+              valueEl.classList.remove("error");
+              dateEl.textContent = point.data;
+            } catch (err) {
+              valueEl.textContent = "—";
+              valueEl.classList.add("error");
+              console.error(err);
+            }
+          })
+        );
+      }
+
+      function renderChart() {
+        if (!ipcaData || typeof Chart === "undefined") return;
+        const labels = ipcaData.map((p) => `${MONTHS[currentLang][p.date.getMonth()]}/${String(p.date.getFullYear()).slice(2)}`);
+        const values = ipcaData.map((p) => p.value);
+        const ctx = document.getElementById("ipcaChart");
+        if (ipcaChart) ipcaChart.destroy();
+        ipcaChart = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [
+              {
+                data: values,
+                borderColor: "#22d3ee",
+                backgroundColor: "rgba(34, 211, 238, 0.12)",
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: "#22d3ee",
+                pointRadius: 3,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: (c) => `${c.parsed.y.toFixed(2)}%` } },
+            },
+            scales: {
+              x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(51,65,85,0.4)" } },
+              y: {
+                ticks: { color: "#94a3b8", callback: (v) => `${v}%` },
+                grid: { color: "rgba(51,65,85,0.4)" },
+              },
+            },
+          },
+        });
+      }
+
+      async function loadChart() {
+        const status = document.getElementById("biStatus");
+        if (typeof Chart === "undefined") {
+          status.textContent = translations[currentLang]["bi.error"];
+          status.classList.add("error");
+          return;
+        }
+        try {
+          const raw = await fetchSeries(433, 12); // IPCA monthly
+          ipcaData = raw.map((p) => ({ date: parseBrDate(p.data), value: Number(p.valor) }));
+          renderChart();
+          status.classList.add("hidden");
+        } catch (err) {
+          status.textContent = translations[currentLang]["bi.error"];
+          status.classList.add("error");
+          console.error(err);
+        }
+      }
+
+      setLanguage(currentLang); // apply saved language now that all state is defined
+      loadKpis();
+      loadChart();
     </script>
   </body>
 </html>
