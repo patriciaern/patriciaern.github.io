@@ -554,6 +554,106 @@ header.hero h1 {
   margin-top: 1rem;
 }
 
+/* ---------- Live Dashboard ---------- */
+.dash-intro {
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0 0 2rem;
+}
+
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+.kpi {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+
+.kpi:hover {
+  border-color: var(--accent);
+}
+
+.kpi-label {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.kpi-value {
+  font-family: var(--mono);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0.35rem 0 0.15rem;
+  min-height: 2rem;
+}
+
+.kpi-value.error {
+  color: #f87171;
+  font-size: 1rem;
+}
+
+.kpi-date {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.chart-box {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+.chart-box.chart-wide {
+  grid-column: 1 / -1;
+}
+
+.chart-box h3 {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.chart-wrap {
+  position: relative;
+  height: 240px;
+}
+
+.dash-status {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 1rem;
+}
+
+.dash-status.error {
+  color: #f87171;
+}
+
+.dash-status.hidden {
+  display: none;
+}
+
+.dash-source {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
 /* ---------- Footer ---------- */
 footer {
   text-align: center;
@@ -627,5 +727,13 @@ footer .copyright {
   .code-panel pre {
     font-size: 0.74rem;
     padding: 1rem;
+  }
+
+  /* dashboard charts stack to a single column */
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-wrap {
+    height: 220px;
   }
 }

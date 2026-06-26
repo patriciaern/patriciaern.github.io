@@ -66,6 +66,20 @@
           "pipe.s2desc": "Persiste a tabela curada e agenda a execução.",
           "pipe.note":
             "Exemplo ilustrativo baseado em pipelines de crédito e risco. Clique nas etapas para navegar.",
+          "dash.label": "Dashboards",
+          "dash.title": "Panorama econômico ao vivo",
+          "dash.intro":
+            "Dashboards construídos com dados reais e atualizados do Banco Central do Brasil — o mesmo tipo de visualização analítica que desenvolvo no dia a dia.",
+          "dash.selic": "Taxa Selic",
+          "dash.ipca": "IPCA (12 meses)",
+          "dash.usd": "Dólar (venda)",
+          "dash.eur": "Euro (venda)",
+          "dash.c1": "IPCA — variação mensal (12 meses)",
+          "dash.c2": "Dólar — últimos pregões (1 mês)",
+          "dash.c3": "Selic — taxa efetiva mensal (6 meses)",
+          "dash.loading": "Carregando dados ao vivo…",
+          "dash.error": "Não foi possível carregar os dados ao vivo.",
+          "dash.source": "Fonte",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -139,6 +153,20 @@
           "pipe.s2desc": "Persists the curated table and schedules the run.",
           "pipe.note":
             "Illustrative example based on credit and risk pipelines. Click the stages to navigate.",
+          "dash.label": "Dashboards",
+          "dash.title": "Live economic snapshot",
+          "dash.intro":
+            "Dashboards built from real, up-to-date Central Bank of Brazil data — the same kind of analytical visualization I build day to day.",
+          "dash.selic": "Selic rate",
+          "dash.ipca": "Inflation (IPCA, 12m)",
+          "dash.usd": "USD (sell)",
+          "dash.eur": "EUR (sell)",
+          "dash.c1": "IPCA — monthly change (12 months)",
+          "dash.c2": "USD/BRL — last sessions (1 month)",
+          "dash.c3": "Selic — effective monthly rate (6m)",
+          "dash.loading": "Loading live data…",
+          "dash.error": "Could not load live data.",
+          "dash.source": "Source",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -160,6 +188,7 @@
           el.classList.toggle("active", el.getAttribute("data-lang") === lang);
         });
         localStorage.setItem("lang", lang);
+        document.dispatchEvent(new CustomEvent("langchange", { detail: lang }));
       }
 
       const saved = localStorage.getItem("lang") || "pt";
@@ -302,3 +331,220 @@ with DAG("etl_carteira_credito",
 
       codeBody.innerHTML = highlight(snippets[0].code, snippets[0].lang);
       restartCycle();
+
+      /* ---------- Live dashboards: Banco Central do Brasil (SGS) ---------- */
+      const SGS = "https://api.bcb.gov.br/dados/serie/bcdata.sgs";
+      const MONTHS = {
+        pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
+        en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      };
+      const ACCENT = "#22d3ee";
+      const GRID = "rgba(51, 65, 85, 0.4)";
+      const AXIS = "#94a3b8";
+
+      function curLang() {
+        return localStorage.getItem("lang") || "pt";
+      }
+
+      async function fetchSeries(code, count, attempts = 4) {
+        // The BCB API occasionally returns a transient 400 under load — retry with backoff.
+        for (let i = 0; i < attempts; i++) {
+          try {
+            const res = await fetch(`${SGS}.${code}/dados/ultimos/${count}?formato=json`);
+            if (!res.ok) throw new Error(`HTTP ${res.status} for series ${code}`);
+            return await res.json();
+          } catch (e) {
+            if (i === attempts - 1) throw e;
+            await new Promise((r) => setTimeout(r, 400 * (i + 1)));
+          }
+        }
+      }
+
+      function parseBrDate(s) {
+        const [d, m, y] = s.split("/").map(Number);
+        return new Date(y, m - 1, d);
+      }
+
+      function fmtNumber(raw) {
+        return Number(raw).toLocaleString(curLang() === "pt" ? "pt-BR" : "en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+      }
+
+      function fmtMonth(date) {
+        return `${MONTHS[curLang()][date.getMonth()]}/${String(date.getFullYear()).slice(2)}`;
+      }
+
+      function fmtDay(date) {
+        const dd = String(date.getDate()).padStart(2, "0");
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        return `${dd}/${mm}`;
+      }
+
+      const dashKpiCards = [...document.querySelectorAll("#dashKpis .kpi")];
+      let dashData = null;
+      const dashCharts = {};
+
+      function formatKpi(card) {
+        const num = fmtNumber(card.dataset.raw);
+        return card.dataset.prefix ? `${card.dataset.unit} ${num}` : `${num} ${card.dataset.unit}`;
+      }
+
+      async function loadKpis() {
+        await Promise.all(
+          dashKpiCards.map(async (card) => {
+            const valueEl = card.querySelector(".kpi-value");
+            const dateEl = card.querySelector(".kpi-date");
+            try {
+              const [p] = await fetchSeries(card.dataset.series, 1);
+              card.dataset.raw = p.valor;
+              valueEl.textContent = formatKpi(card);
+              valueEl.classList.remove("error");
+              dateEl.textContent = p.data;
+            } catch (e) {
+              valueEl.textContent = "—";
+              valueEl.classList.add("error");
+              console.error(e);
+            }
+          })
+        );
+      }
+
+      function refreshKpiLabels() {
+        dashKpiCards.forEach((card) => {
+          if (card.dataset.raw !== undefined) {
+            card.querySelector(".kpi-value").textContent = formatKpi(card);
+          }
+        });
+      }
+
+      function baseOptions(yFmt, tipFmt) {
+        return {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 600 },
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: tipFmt } },
+          },
+          scales: {
+            x: {
+              ticks: { color: AXIS, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
+              grid: { color: GRID },
+            },
+            y: { ticks: { color: AXIS, callback: yFmt }, grid: { color: GRID } },
+          },
+        };
+      }
+
+      function drawChart(id, config) {
+        if (dashCharts[id]) dashCharts[id].destroy();
+        dashCharts[id] = new Chart(document.getElementById(id), config);
+      }
+
+      function renderCharts() {
+        if (!dashData || typeof Chart === "undefined") return;
+
+        drawChart("chartIpca", {
+          type: "bar",
+          data: {
+            labels: dashData.ipca.map((p) => fmtMonth(p.date)),
+            datasets: [
+              {
+                data: dashData.ipca.map((p) => p.value),
+                backgroundColor: "rgba(34, 211, 238, 0.55)",
+                borderColor: ACCENT,
+                borderWidth: 1,
+                borderRadius: 4,
+              },
+            ],
+          },
+          options: baseOptions(
+            (v) => `${v}%`,
+            (c) => `${c.parsed.y.toFixed(2)}%`
+          ),
+        });
+
+        drawChart("chartUsd", {
+          type: "line",
+          data: {
+            labels: dashData.usd.map((p) => fmtDay(p.date)),
+            datasets: [
+              {
+                data: dashData.usd.map((p) => p.value),
+                borderColor: ACCENT,
+                backgroundColor: "rgba(34, 211, 238, 0.12)",
+                fill: true,
+                tension: 0.3,
+                pointRadius: 2,
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: baseOptions(
+            (v) => `R$ ${v}`,
+            (c) => `R$ ${c.parsed.y.toFixed(4)}`
+          ),
+        });
+
+        drawChart("chartSelic", {
+          type: "line",
+          data: {
+            labels: dashData.selic.map((p) => fmtMonth(p.date)),
+            datasets: [
+              {
+                data: dashData.selic.map((p) => p.value),
+                borderColor: ACCENT,
+                backgroundColor: "rgba(34, 211, 238, 0.1)",
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: baseOptions(
+            (v) => `${v}%`,
+            (c) => `${c.parsed.y.toFixed(2)}% a.a.`
+          ),
+        });
+      }
+
+      function showDashError(status) {
+        status.textContent = translations[curLang()]["dash.error"];
+        status.classList.add("error");
+      }
+
+      async function loadDashboard() {
+        const status = document.getElementById("dashStatus");
+        if (typeof Chart === "undefined") {
+          showDashError(status);
+          return;
+        }
+        try {
+          const [ipca, usd, selic] = await Promise.all([
+            fetchSeries(433, 12), // IPCA monthly variation
+            fetchSeries(1, 20), // USD/BRL daily (~1 trading month)
+            fetchSeries(4189, 6), // Selic effective monthly rate, last 6 months
+          ]);
+          const map = (arr) =>
+            arr
+              .map((p) => ({ date: parseBrDate(p.data), value: Number(p.valor) }))
+              .sort((a, b) => a.date - b.date);
+          dashData = { ipca: map(ipca), usd: map(usd), selic: map(selic) };
+          renderCharts();
+          status.classList.add("hidden");
+        } catch (e) {
+          showDashError(status);
+          console.error(e);
+        }
+      }
+
+      document.addEventListener("langchange", () => {
+        refreshKpiLabels();
+        renderCharts();
+      });
+
+      loadKpis();
+      loadDashboard();

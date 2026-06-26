@@ -223,6 +223,60 @@
       </p>
     </section>
 
+    <!-- ---------- Live Dashboard ---------- -->
+    <section id="dashboard">
+      <div class="section-label" data-i18n="dash.label">Dashboards</div>
+      <h2 data-i18n="dash.title">Panorama econômico ao vivo</h2>
+      <p class="dash-intro" data-i18n="dash.intro">
+        Dashboards construídos com dados reais e atualizados do Banco Central do
+        Brasil — o mesmo tipo de visualização analítica que desenvolvo no dia a dia.
+      </p>
+
+      <div class="kpis" id="dashKpis">
+        <div class="kpi" data-series="432" data-unit="% a.a.">
+          <div class="kpi-label" data-i18n="dash.selic">Taxa Selic</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-series="13522" data-unit="%">
+          <div class="kpi-label" data-i18n="dash.ipca">IPCA (12 meses)</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-series="1" data-unit="R$" data-prefix="true">
+          <div class="kpi-label" data-i18n="dash.usd">Dólar (venda)</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-series="21619" data-unit="R$" data-prefix="true">
+          <div class="kpi-label" data-i18n="dash.eur">Euro (venda)</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-box">
+          <h3 data-i18n="dash.c1">IPCA — variação mensal (12 meses)</h3>
+          <div class="chart-wrap"><canvas id="chartIpca"></canvas></div>
+        </div>
+        <div class="chart-box">
+          <h3 data-i18n="dash.c2">Dólar — últimos pregões (1 mês)</h3>
+          <div class="chart-wrap"><canvas id="chartUsd"></canvas></div>
+        </div>
+        <div class="chart-box chart-wide">
+          <h3 data-i18n="dash.c3">Selic — taxa efetiva mensal (6 meses)</h3>
+          <div class="chart-wrap"><canvas id="chartSelic"></canvas></div>
+        </div>
+      </div>
+
+      <div class="dash-status" id="dashStatus" data-i18n="dash.loading">Carregando dados ao vivo…</div>
+      <p class="dash-source">
+        <span data-i18n="dash.source">Fonte</span>:
+        <a href="https://dadosabertos.bcb.gov.br/" target="_blank" rel="noopener">Banco Central do Brasil — Dados Abertos (SGS)</a>
+      </p>
+    </section>
+
     <!-- ---------- Education ---------- -->
     <section id="education">
       <div class="section-label" data-i18n="edu.label">Formação</div>
@@ -252,6 +306,7 @@
       <p class="copyright">© <span id="year"></span> Patrícia Vergínia Ern</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="assets/js/main.js"></script>
   </body>
 </html>
