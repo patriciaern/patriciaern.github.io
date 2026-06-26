@@ -362,91 +362,187 @@
         color: var(--muted);
       }
 
-      /* ---------- Live BI ---------- */
-      .bi-intro {
+      /* ---------- ETL Pipeline showcase ---------- */
+      .pipe-intro {
         color: var(--muted);
         max-width: 640px;
         margin: 0 0 2rem;
       }
 
-      .kpis {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 1rem;
-        margin-bottom: 2rem;
+      .pipeline {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        margin-bottom: 1.75rem;
+        flex-wrap: wrap;
       }
 
-      .kpi {
+      .stage {
+        flex: 1 1 0;
+        min-width: 150px;
         background: var(--card);
         border: 1px solid var(--card-border);
         border-radius: 14px;
-        padding: 1.25rem;
-        transition: border-color 0.2s;
+        padding: 1.1rem 1rem;
+        cursor: pointer;
+        text-align: left;
+        font: inherit;
+        color: var(--text);
+        transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
       }
 
-      .kpi:hover {
+      .stage:hover {
+        transform: translateY(-3px);
+      }
+
+      .stage.active {
         border-color: var(--accent);
+        box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(34, 211, 238, 0.18);
       }
 
-      .kpi-label {
-        font-size: 0.82rem;
-        color: var(--muted);
-      }
-
-      .kpi-value {
-        font-family: var(--mono);
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: var(--accent);
-        margin: 0.35rem 0 0.15rem;
-        min-height: 2rem;
-      }
-
-      .kpi-value.error {
-        color: #f87171;
-        font-size: 1rem;
-      }
-
-      .kpi-date {
+      .stage .stage-step {
         font-family: var(--mono);
         font-size: 0.72rem;
+        letter-spacing: 1px;
         color: var(--muted);
       }
 
-      .chart-card {
-        background: var(--card);
+      .stage.active .stage-step {
+        color: var(--accent);
+      }
+
+      .stage .stage-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin: 0.2rem 0 0.35rem;
+      }
+
+      .stage .stage-tool {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border: 1px solid rgba(34, 211, 238, 0.25);
+        border-radius: 6px;
+        padding: 0.1rem 0.45rem;
+      }
+
+      .stage .stage-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-top: 0.6rem;
+      }
+
+      /* animated connector with flowing data dots */
+      .connector {
+        flex: 0 0 46px;
+        align-self: center;
+        position: relative;
+        height: 2px;
+        background: var(--card-border);
+        overflow: visible;
+      }
+
+      .connector::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 7px;
+        height: 7px;
+        margin-top: -3.5px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 8px var(--accent);
+        animation: flow 1.8s linear infinite;
+      }
+
+      .connector.delay::after {
+        animation-delay: 0.9s;
+      }
+
+      @keyframes flow {
+        0% {
+          left: 0;
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+        }
+        85% {
+          opacity: 1;
+        }
+        100% {
+          left: 100%;
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .connector::after {
+          animation: none;
+          left: 50%;
+        }
+      }
+
+      /* code panel */
+      .code-panel {
+        background: #0b1220;
         border: 1px solid var(--card-border);
         border-radius: 14px;
-        padding: 1.5rem;
+        overflow: hidden;
       }
 
-      .chart-card h3 {
-        margin: 0 0 1rem;
-        font-size: 1rem;
-        color: var(--text);
+      .code-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid var(--card-border);
+        background: rgba(148, 163, 184, 0.06);
       }
 
-      .chart-wrap {
-        position: relative;
-        height: 300px;
+      .code-head .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: #475569;
       }
 
-      .bi-status {
+      .code-head .fname {
         font-family: var(--mono);
         font-size: 0.78rem;
         color: var(--muted);
-        margin-top: 0.75rem;
+        margin-left: 0.5rem;
       }
 
-      .bi-status.error {
-        color: #f87171;
+      .code-panel pre {
+        margin: 0;
+        padding: 1.25rem;
+        overflow-x: auto;
+        font-family: var(--mono);
+        font-size: 0.83rem;
+        line-height: 1.6;
+        color: var(--text);
       }
 
-      .bi-status.hidden {
-        display: none;
+      .code-panel pre.fade {
+        opacity: 0;
+        transform: translateY(6px);
       }
 
-      .bi-source {
+      .code-panel pre {
+        transition: opacity 0.25s, transform 0.25s;
+      }
+
+      /* token colors */
+      .tok-kw { color: #c084fc; }
+      .tok-str { color: #34d399; }
+      .tok-com { color: #64748b; font-style: italic; }
+      .tok-num { color: #fbbf24; }
+      .tok-fn { color: #22d3ee; }
+
+      .pipe-source {
         font-size: 0.8rem;
         color: var(--muted);
         margin-top: 1rem;
@@ -656,48 +752,48 @@
       </div>
     </section>
 
-    <!-- ---------- Live BI Dashboard ---------- -->
-    <section id="livebi">
-      <div class="section-label" data-i18n="bi.label">Live BI</div>
-      <h2 data-i18n="bi.title">Painel de dados ao vivo</h2>
-      <p class="bi-intro" data-i18n="bi.intro">
-        Indicadores econômicos reais, buscados em tempo real da API do Banco
-        Central do Brasil — um exemplo prático do fluxo ETL → transformação →
-        visualização aplicado ao universo de crédito e risco.
+    <!-- ---------- ETL Pipeline showcase ---------- -->
+    <section id="pipeline">
+      <div class="section-label" data-i18n="pipe.label">Pipeline</div>
+      <h2 data-i18n="pipe.title">Como eu construo um pipeline de dados</h2>
+      <p class="pipe-intro" data-i18n="pipe.intro">
+        Um pipeline ETL real de carteira de crédito — clique em cada etapa para
+        ver o código. O fluxo de dados anima da extração até a entrega.
       </p>
 
-      <div class="kpis" id="biKpis">
-        <div class="kpi" data-series="432" data-unit="% a.a." data-i18n-label="bi.selic">
-          <div class="kpi-label" data-i18n="bi.selic">Taxa Selic</div>
-          <div class="kpi-value">…</div>
-          <div class="kpi-date"></div>
-        </div>
-        <div class="kpi" data-series="13522" data-unit="%" data-i18n-label="bi.ipca">
-          <div class="kpi-label" data-i18n="bi.ipca">IPCA (12 meses)</div>
-          <div class="kpi-value">…</div>
-          <div class="kpi-date"></div>
-        </div>
-        <div class="kpi" data-series="1" data-unit="R$" data-prefix="true" data-i18n-label="bi.usd">
-          <div class="kpi-label" data-i18n="bi.usd">Dólar (venda)</div>
-          <div class="kpi-value">…</div>
-          <div class="kpi-date"></div>
-        </div>
-        <div class="kpi" data-series="21082" data-unit="%" data-i18n-label="bi.default">
-          <div class="kpi-label" data-i18n="bi.default">Inadimplência do crédito</div>
-          <div class="kpi-value">…</div>
-          <div class="kpi-date"></div>
-        </div>
+      <div class="pipeline" id="pipeline">
+        <button class="stage active" data-stage="0">
+          <div class="stage-step">01</div>
+          <div class="stage-name" data-i18n="pipe.s0name">Extract</div>
+          <span class="stage-tool">SQL · Athena</span>
+          <div class="stage-desc" data-i18n="pipe.s0desc">Consulta dados brutos da carteira no data lake.</div>
+        </button>
+        <div class="connector"></div>
+        <button class="stage" data-stage="1">
+          <div class="stage-step">02</div>
+          <div class="stage-name" data-i18n="pipe.s1name">Transform</div>
+          <span class="stage-tool">PySpark · Databricks</span>
+          <div class="stage-desc" data-i18n="pipe.s1desc">Limpa, classifica risco e agrega por cooperado.</div>
+        </button>
+        <div class="connector delay"></div>
+        <button class="stage" data-stage="2">
+          <div class="stage-step">03</div>
+          <div class="stage-name" data-i18n="pipe.s2name">Load</div>
+          <span class="stage-tool">Delta · Airflow</span>
+          <div class="stage-desc" data-i18n="pipe.s2desc">Persiste a tabela curada e agenda a execução.</div>
+        </button>
       </div>
 
-      <div class="chart-card">
-        <h3 data-i18n="bi.charttitle">IPCA — variação mensal (últimos 12 meses)</h3>
-        <div class="chart-wrap"><canvas id="ipcaChart"></canvas></div>
-        <div class="bi-status" id="biStatus" data-i18n="bi.loading">Carregando dados…</div>
+      <div class="code-panel">
+        <div class="code-head">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <span class="fname" id="codeFname">extract.sql</span>
+        </div>
+        <pre><code id="codeBody"></code></pre>
       </div>
 
-      <p class="bi-source">
-        <span data-i18n="bi.source">Fonte</span>:
-        <a href="https://dadosabertos.bcb.gov.br/" target="_blank" rel="noopener">Banco Central do Brasil — SGS</a>
+      <p class="pipe-source" data-i18n="pipe.note">
+        Exemplo ilustrativo baseado em pipelines de crédito e risco. Clique nas etapas para navegar.
       </p>
     </section>
 
@@ -730,7 +826,6 @@
       <p class="copyright">© <span id="year"></span> Patrícia Vergínia Ern</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script>
       const translations = {
         pt: {
@@ -788,18 +883,18 @@
           "hl.m1": "Colaboradores analisados em projetos de remuneração e carreira",
           "hl.m2": "Ganhos de produtividade em iniciativas de melhoria contínua",
           "hl.m3": "Equipes mentoradas em metodologia Lean",
-          "bi.label": "Live BI",
-          "bi.title": "Painel de dados ao vivo",
-          "bi.intro":
-            "Indicadores econômicos reais, buscados em tempo real da API do Banco Central do Brasil — um exemplo prático do fluxo ETL → transformação → visualização aplicado ao universo de crédito e risco.",
-          "bi.selic": "Taxa Selic",
-          "bi.ipca": "IPCA (12 meses)",
-          "bi.usd": "Dólar (venda)",
-          "bi.default": "Inadimplência do crédito",
-          "bi.charttitle": "IPCA — variação mensal (últimos 12 meses)",
-          "bi.loading": "Carregando dados…",
-          "bi.error": "Não foi possível carregar os dados ao vivo.",
-          "bi.source": "Fonte",
+          "pipe.label": "Pipeline",
+          "pipe.title": "Como eu construo um pipeline de dados",
+          "pipe.intro":
+            "Um pipeline ETL real de carteira de crédito — clique em cada etapa para ver o código. O fluxo de dados anima da extração até a entrega.",
+          "pipe.s0name": "Extract",
+          "pipe.s0desc": "Consulta dados brutos da carteira no data lake.",
+          "pipe.s1name": "Transform",
+          "pipe.s1desc": "Limpa, classifica risco e agrega por cooperado.",
+          "pipe.s2name": "Load",
+          "pipe.s2desc": "Persiste a tabela curada e agenda a execução.",
+          "pipe.note":
+            "Exemplo ilustrativo baseado em pipelines de crédito e risco. Clique nas etapas para navegar.",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -861,18 +956,18 @@
           "hl.m1": "Employees analyzed in compensation and career projects",
           "hl.m2": "Productivity gains in continuous improvement initiatives",
           "hl.m3": "Teams mentored in Lean methodology",
-          "bi.label": "Live BI",
-          "bi.title": "Live data dashboard",
-          "bi.intro":
-            "Real economic indicators fetched live from the Central Bank of Brazil API — a hands-on example of the ETL → transformation → visualization flow applied to the credit and risk domain.",
-          "bi.selic": "Selic rate",
-          "bi.ipca": "Inflation (IPCA, 12m)",
-          "bi.usd": "USD (sell)",
-          "bi.default": "Credit default rate",
-          "bi.charttitle": "IPCA — monthly change (last 12 months)",
-          "bi.loading": "Loading data…",
-          "bi.error": "Could not load live data.",
-          "bi.source": "Source",
+          "pipe.label": "Pipeline",
+          "pipe.title": "How I build a data pipeline",
+          "pipe.intro":
+            "A real credit-portfolio ETL pipeline — click each stage to see the code. Data flows from extraction through to delivery.",
+          "pipe.s0name": "Extract",
+          "pipe.s0desc": "Queries raw portfolio data from the data lake.",
+          "pipe.s1name": "Transform",
+          "pipe.s1desc": "Cleans, scores risk, and aggregates per member.",
+          "pipe.s2name": "Load",
+          "pipe.s2desc": "Persists the curated table and schedules the run.",
+          "pipe.note":
+            "Illustrative example based on credit and risk pipelines. Click the stages to navigate.",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -894,11 +989,10 @@
           el.classList.toggle("active", el.getAttribute("data-lang") === lang);
         });
         localStorage.setItem("lang", lang);
-        currentLang = lang;
-        renderChart(); // re-localize month labels if data is loaded
       }
 
-      let currentLang = localStorage.getItem("lang") || "pt";
+      const saved = localStorage.getItem("lang") || "pt";
+      setLanguage(saved);
 
       document.getElementById("langToggle").addEventListener("click", () => {
         const current = localStorage.getItem("lang") || "pt";
@@ -907,118 +1001,136 @@
 
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      /* ---------- Live BI: Banco Central do Brasil (SGS API) ---------- */
-      const SGS = "https://api.bcb.gov.br/dados/serie/bcdata.sgs";
-      const MONTHS = {
-        pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
-        en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      };
-      let ipcaData = null; // [{ date: Date, value: Number }]
-      let ipcaChart = null;
+      /* ---------- ETL Pipeline showcase ---------- */
+      const snippets = [
+        {
+          fname: "extract.sql",
+          lang: "sql",
+          code: `-- Extract: carteira de credito bruta (AWS Athena)
+SELECT
+    cooperado_id,
+    contrato_id,
+    saldo_devedor,
+    dias_atraso,
+    data_referencia
+FROM raw.carteira_credito
+WHERE data_referencia = current_date
+  AND situacao = 'ATIVO';`,
+        },
+        {
+          fname: "transform.py",
+          lang: "python",
+          code: `# Transform: limpeza, classificacao de risco e agregacao
+from pyspark.sql import functions as F
 
-      async function fetchSeries(code, count) {
-        const res = await fetch(`${SGS}.${code}/dados/ultimos/${count}?formato=json`);
-        if (!res.ok) throw new Error(`HTTP ${res.status} for series ${code}`);
-        return res.json();
+carteira = (
+    spark.table("raw.carteira_credito")
+    .withColumn("em_atraso", F.col("dias_atraso") > 0)
+    .withColumn(
+        "faixa_risco",
+        F.when(F.col("dias_atraso") > 90, "alto")
+         .when(F.col("dias_atraso") > 30, "medio")
+         .otherwise("baixo"),
+    )
+    .groupBy("cooperado_id", "faixa_risco")
+    .agg(
+        F.sum("saldo_devedor").alias("exposicao"),
+        F.avg("dias_atraso").alias("atraso_medio"),
+    )
+)`,
+        },
+        {
+          fname: "load.py",
+          lang: "python",
+          code: `# Load: grava tabela curada em Delta Lake
+(carteira.write
+    .format("delta")
+    .mode("overwrite")
+    .saveAsTable("analytics.carteira_risco"))
+
+# Orquestracao diaria com Airflow
+with DAG("etl_carteira_credito",
+         schedule="0 6 * * *",
+         catchup=False) as dag:
+    extract >> transform >> load`,
+        },
+      ];
+
+      function escapeHtml(s) {
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
       }
 
-      function parseBrDate(s) {
-        const [d, m, y] = s.split("/").map(Number);
-        return new Date(y, m - 1, d);
-      }
-
-      function formatValue(raw, unit, prefix) {
-        const n = Number(raw);
-        const num = n.toLocaleString(currentLang === "pt" ? "pt-BR" : "en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        });
-        return prefix ? `${unit} ${num}` : `${num} ${unit}`;
-      }
-
-      async function loadKpis() {
-        const cards = document.querySelectorAll("#biKpis .kpi");
-        await Promise.all(
-          [...cards].map(async (card) => {
-            const code = card.dataset.series;
-            const valueEl = card.querySelector(".kpi-value");
-            const dateEl = card.querySelector(".kpi-date");
-            try {
-              const [point] = await fetchSeries(code, 1);
-              valueEl.textContent = formatValue(point.valor, card.dataset.unit, card.dataset.prefix);
-              valueEl.classList.remove("error");
-              dateEl.textContent = point.data;
-            } catch (err) {
-              valueEl.textContent = "—";
-              valueEl.classList.add("error");
-              console.error(err);
-            }
-          })
+      function highlight(code, lang) {
+        const isSql = lang === "sql";
+        const comment = isSql ? "--[^\\n]*" : "#[^\\n]*";
+        const keywords = isSql
+          ? "SELECT|FROM|WHERE|AND|OR|AS|GROUP\\s+BY|ORDER\\s+BY|JOIN|ON|CASE|WHEN|THEN|ELSE|END"
+          : "from|import|with|as|def|return|lambda|True|False|None|in|for|if";
+        const builtins = isSql
+          ? "current_date|SUM|AVG|COUNT|MIN|MAX"
+          : "spark|DAG|datetime|F";
+        const master = new RegExp(
+          "(?<com>" + comment + ")" +
+            "|(?<str>'[^']*'|\"[^\"]*\")" +
+            "|(?<num>\\b\\d+(?:\\.\\d+)?\\b)" +
+            "|(?<kw>\\b(?:" + keywords + ")\\b)" +
+            "|(?<fn>\\b(?:" + builtins + ")\\b)",
+          "g"
         );
-      }
-
-      function renderChart() {
-        if (!ipcaData || typeof Chart === "undefined") return;
-        const labels = ipcaData.map((p) => `${MONTHS[currentLang][p.date.getMonth()]}/${String(p.date.getFullYear()).slice(2)}`);
-        const values = ipcaData.map((p) => p.value);
-        const ctx = document.getElementById("ipcaChart");
-        if (ipcaChart) ipcaChart.destroy();
-        ipcaChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels,
-            datasets: [
-              {
-                data: values,
-                borderColor: "#22d3ee",
-                backgroundColor: "rgba(34, 211, 238, 0.12)",
-                fill: true,
-                tension: 0.3,
-                pointBackgroundColor: "#22d3ee",
-                pointRadius: 3,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: { callbacks: { label: (c) => `${c.parsed.y.toFixed(2)}%` } },
-            },
-            scales: {
-              x: { ticks: { color: "#94a3b8" }, grid: { color: "rgba(51,65,85,0.4)" } },
-              y: {
-                ticks: { color: "#94a3b8", callback: (v) => `${v}%` },
-                grid: { color: "rgba(51,65,85,0.4)" },
-              },
-            },
-          },
-        });
-      }
-
-      async function loadChart() {
-        const status = document.getElementById("biStatus");
-        if (typeof Chart === "undefined") {
-          status.textContent = translations[currentLang]["bi.error"];
-          status.classList.add("error");
-          return;
+        let out = "",
+          last = 0,
+          m;
+        while ((m = master.exec(code))) {
+          out += escapeHtml(code.slice(last, m.index));
+          const g = m.groups;
+          const cls = g.com
+            ? "tok-com"
+            : g.str
+            ? "tok-str"
+            : g.num
+            ? "tok-num"
+            : g.kw
+            ? "tok-kw"
+            : "tok-fn";
+          out += '<span class="' + cls + '">' + escapeHtml(m[0]) + "</span>";
+          last = m.index + m[0].length;
         }
-        try {
-          const raw = await fetchSeries(433, 12); // IPCA monthly
-          ipcaData = raw.map((p) => ({ date: parseBrDate(p.data), value: Number(p.valor) }));
-          renderChart();
-          status.classList.add("hidden");
-        } catch (err) {
-          status.textContent = translations[currentLang]["bi.error"];
-          status.classList.add("error");
-          console.error(err);
-        }
+        out += escapeHtml(code.slice(last));
+        return out;
       }
 
-      setLanguage(currentLang); // apply saved language now that all state is defined
-      loadKpis();
-      loadChart();
+      const stages = [...document.querySelectorAll("#pipeline .stage")];
+      const codeBody = document.getElementById("codeBody");
+      const codeFname = document.getElementById("codeFname");
+      const codePre = codeBody.parentElement;
+      let activeStage = 0;
+      let cycleTimer = null;
+
+      function setStage(i, fromUser) {
+        activeStage = i;
+        stages.forEach((s, idx) => s.classList.toggle("active", idx === i));
+        codePre.classList.add("fade");
+        setTimeout(() => {
+          codeFname.textContent = snippets[i].fname;
+          codeBody.innerHTML = highlight(snippets[i].code, snippets[i].lang);
+          codePre.classList.remove("fade");
+        }, 200);
+        if (fromUser) restartCycle();
+      }
+
+      function nextStage() {
+        setStage((activeStage + 1) % snippets.length);
+      }
+
+      function restartCycle() {
+        clearInterval(cycleTimer);
+        cycleTimer = setInterval(nextStage, 5000);
+      }
+
+      stages.forEach((s, idx) => s.addEventListener("click", () => setStage(idx, true)));
+
+      codeBody.innerHTML = highlight(snippets[0].code, snippets[0].lang);
+      restartCycle();
     </script>
   </body>
 </html>
