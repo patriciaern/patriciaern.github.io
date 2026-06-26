@@ -467,6 +467,23 @@ header.hero h1 {
   }
 }
 
+@keyframes flowV {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .connector::after {
     animation: none;
@@ -567,7 +584,48 @@ footer .copyright {
   header.hero h1 {
     font-size: 2.1rem;
   }
+  header.hero {
+    padding: 4.5rem 1.25rem 3.5rem;
+  }
+  .hero-title {
+    font-size: 1rem;
+  }
   section {
     padding: 3rem 1.25rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+
+  /* pipeline stacks vertically with downward-flowing connectors */
+  .pipeline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .stage {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .stage:hover {
+    transform: none;
+  }
+  .connector {
+    flex: 0 0 26px;
+    width: 2px;
+    height: 26px;
+    align-self: center;
+  }
+  .connector::after {
+    top: 0;
+    left: 50%;
+    margin-top: 0;
+    margin-left: -3.5px;
+    animation-name: flowV;
+  }
+
+  .code-panel pre {
+    font-size: 0.74rem;
+    padding: 1rem;
   }
 }
