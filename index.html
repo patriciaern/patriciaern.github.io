@@ -218,6 +218,68 @@
         <pre><code id="codeBody"></code></pre>
       </div>
 
+      <!-- Before / After ETL data -->
+      <div class="etl-data">
+        <h3 class="etl-subtitle" data-i18n="etl.title">Antes e depois do ETL</h3>
+        <p class="etl-intro" data-i18n="etl.intro">
+          Os mesmos registros antes e depois da transformação: tipos
+          corrigidos, datas padronizadas e colunas derivadas calculadas.
+        </p>
+        <div class="data-compare">
+          <div class="data-card narrow">
+            <span class="data-tag raw" data-i18n="etl.before">Antes · raw.bcb_sgs</span>
+            <div class="table-wrap">
+              <table id="rawTable"></table>
+            </div>
+            <p class="data-foot" data-i18n="etl.dropped">
+              * registros com valor nulo são descartados na limpeza.
+            </p>
+          </div>
+          <div class="data-arrow" aria-hidden="true">
+            <span class="data-arrow-line"></span>
+            <span class="data-arrow-label">ETL</span>
+          </div>
+          <div class="data-card wide">
+            <span class="data-tag clean" data-i18n="etl.after">Depois · analytics.inadimplencia_credito_publico</span>
+            <div class="table-wrap">
+              <table id="cleanTable"></table>
+            </div>
+            <p class="data-foot" data-i18n="etl.typed">
+              * valores tipados (numéricos) e colunas derivadas no Transform.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div class="dashboard">
+        <h3 class="etl-subtitle" data-i18n="dash.title">Dashboard — inadimplência do crédito público</h3>
+        <p class="etl-intro" data-i18n="dash.intro">
+          A série curada, pronta para análise — métricas-chave e tendência dos
+          últimos 12 meses.
+        </p>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-num" id="kpiLatest">—</div>
+            <div class="kpi-label" data-i18n="dash.latest">Inadimplência atual</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kpiAvg">—</div>
+            <div class="kpi-label" data-i18n="dash.avg">Média móvel (3 meses)</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kpiChange">—</div>
+            <div class="kpi-label" data-i18n="dash.change">Variação no mês (p.p.)</div>
+          </div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-head">
+            <span class="chart-title" data-i18n="dash.chart">Inadimplência (% a.a.) · 12 meses</span>
+          </div>
+          <svg id="chart" viewBox="0 0 720 240" preserveAspectRatio="xMidYMid meet" role="img"></svg>
+        </div>
+      </div>
+
       <p class="pipe-source">
         <span data-i18n="pipe.note">
           Exemplo baseado na série 13667 (inadimplência do crédito público). Clique nas etapas para navegar.

@@ -67,6 +67,20 @@
           "pipe.note":
             "Exemplo baseado na série 13667 (inadimplência do crédito público). Clique nas etapas para navegar.",
           "pipe.source": "Fonte: Banco Central do Brasil — Dados Abertos (SGS 13667)",
+          "etl.title": "Antes e depois do ETL",
+          "etl.intro":
+            "Os mesmos registros antes e depois da transformação: tipos corrigidos, datas padronizadas e colunas derivadas calculadas.",
+          "etl.before": "Antes · raw.bcb_sgs",
+          "etl.after": "Depois · analytics.inadimplencia_credito_publico",
+          "etl.dropped": "* registros com valor nulo são descartados na limpeza.",
+          "etl.typed": "* valores tipados (numéricos) e colunas derivadas no Transform.",
+          "dash.title": "Dashboard — inadimplência do crédito público",
+          "dash.intro":
+            "A série curada, pronta para análise — métricas-chave e tendência dos últimos 12 meses.",
+          "dash.latest": "Inadimplência atual",
+          "dash.avg": "Média móvel (3 meses)",
+          "dash.change": "Variação no mês (p.p.)",
+          "dash.chart": "Inadimplência (% a.a.) · 12 meses",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -141,6 +155,20 @@
           "pipe.note":
             "Example based on series 13667 (public-credit default rate). Click the stages to navigate.",
           "pipe.source": "Source: Central Bank of Brazil — Open Data (SGS 13667)",
+          "etl.title": "Before and after ETL",
+          "etl.intro":
+            "The same records before and after transformation: types fixed, dates standardized, and derived columns computed.",
+          "etl.before": "Before · raw.bcb_sgs",
+          "etl.after": "After · analytics.inadimplencia_credito_publico",
+          "etl.dropped": "* records with a null value are dropped during cleaning.",
+          "etl.typed": "* typed (numeric) values and derived columns from Transform.",
+          "dash.title": "Dashboard — public-credit default rate",
+          "dash.intro":
+            "The curated series, ready for analysis — key metrics and the trend over the last 12 months.",
+          "dash.latest": "Current default rate",
+          "dash.avg": "Moving average (3 months)",
+          "dash.change": "Monthly change (p.p.)",
+          "dash.chart": "Default rate (% p.a.) · 12 months",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -303,3 +331,163 @@ with DAG("etl_inadimplencia_bcb",
 
       codeBody.innerHTML = highlight(snippets[0].code, snippets[0].lang);
       restartCycle();
+
+      /* ---------- Before/After data + Dashboard ---------- */
+      // Single source of truth: curated monthly series (SGS 13667, example).
+      const series = [
+        { date: "2025-05-01", v: 1.02 },
+        { date: "2025-06-01", v: 1.08 },
+        { date: "2025-07-01", v: 1.15 },
+        { date: "2025-08-01", v: 1.21 },
+        { date: "2025-09-01", v: 1.18 },
+        { date: "2025-10-01", v: 1.25 },
+        { date: "2025-11-01", v: 1.31 },
+        { date: "2025-12-01", v: 1.27 },
+        { date: "2026-01-01", v: 1.34 },
+        { date: "2026-02-01", v: 1.42 },
+        { date: "2026-03-01", v: 1.38 },
+        { date: "2026-04-01", v: 1.45 },
+      ];
+
+      // Derive the curated columns the Transform step produces.
+      const curated = series.map((d, i, a) => {
+        const win = a.slice(Math.max(0, i - 2), i + 1).map((x) => x.v);
+        const mm3 = win.reduce((s, x) => s + x, 0) / win.length;
+        const varpp = i === 0 ? null : d.v - a[i - 1].v;
+        return { ...d, mm3, varpp };
+      });
+
+      const comma = (n) => n.toFixed(2).replace(".", ",");
+      const dot = (n) => n.toFixed(2);
+      const brDate = (iso) => {
+        const [y, m, d] = iso.split("-");
+        return `${d}/${m}/${y}`;
+      };
+      const signed = (n) => (n >= 0 ? "+" : "−") + Math.abs(n).toFixed(2);
+      const signedComma = (n) =>
+        (n >= 0 ? "+" : "−") + Math.abs(n).toFixed(2).replace(".", ",");
+
+      // --- Antes (raw) table: messy text, plus a null row that gets dropped ---
+      const rawHead =
+        "<thead><tr><th>data_referencia</th><th>valor</th></tr></thead>";
+      const rawRows = [
+        '<tr class="row-null"><td>01/04/2025</td><td class="v-null">null</td></tr>',
+        ...curated
+          .slice(0, 4)
+          .map(
+            (d) =>
+              `<tr><td>${brDate(d.date)}</td><td class="v-text">"${comma(
+                d.v
+              )}"</td></tr>`
+          ),
+        '<tr class="row-more"><td colspan="2">⋮</td></tr>',
+      ].join("");
+      document.getElementById("rawTable").innerHTML = rawHead + "<tbody>" + rawRows + "</tbody>";
+
+      // --- Depois (curated) table: typed values + derived columns ---
+      const cleanHead =
+        "<thead><tr><th>data_referencia</th><th>inadimplencia</th>" +
+        "<th>media_movel_3m</th><th>variacao_pp</th></tr></thead>";
+      const cleanRows = [
+        ...curated.slice(0, 4).map((d) => {
+          const varCell =
+            d.varpp === null
+              ? '<td class="v-num">—</td>'
+              : `<td class="${d.varpp >= 0 ? "v-pos" : "v-neg"}">${signed(
+                  d.varpp
+                )}</td>`;
+          return `<tr><td>${d.date}</td><td class="v-num">${dot(
+            d.v
+          )}</td><td class="v-num">${dot(d.mm3)}</td>${varCell}</tr>`;
+        }),
+        '<tr class="row-more"><td colspan="4">⋮</td></tr>',
+      ].join("");
+      document.getElementById("cleanTable").innerHTML =
+        cleanHead + "<tbody>" + cleanRows + "</tbody>";
+
+      // --- KPI cards ---
+      const last = curated[curated.length - 1];
+      document.getElementById("kpiLatest").textContent = comma(last.v) + "%";
+      document.getElementById("kpiAvg").textContent = comma(last.mm3) + "%";
+      const changeEl = document.getElementById("kpiChange");
+      changeEl.textContent = signedComma(last.varpp);
+      changeEl.classList.add(last.varpp >= 0 ? "up" : "down");
+
+      // --- Line chart (SVG) ---
+      (function renderChart() {
+        const W = 720,
+          H = 240,
+          pad = { l: 42, r: 16, t: 16, b: 28 };
+        const vals = curated.map((d) => d.v);
+        const lo = Math.min(...vals),
+          hi = Math.max(...vals);
+        const span = hi - lo || 1;
+        const min = lo - span * 0.15,
+          max = hi + span * 0.15;
+        const innerW = W - pad.l - pad.r,
+          innerH = H - pad.t - pad.b;
+        const x = (i) => pad.l + (i / (curated.length - 1)) * innerW;
+        const y = (v) => pad.t + (1 - (v - min) / (max - min)) * innerH;
+
+        const pts = curated.map((d, i) => [x(i), y(d.v)]);
+        const line = pts
+          .map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1))
+          .join(" ");
+        const baseY = (H - pad.b).toFixed(1);
+        const area =
+          line +
+          ` L ${x(curated.length - 1).toFixed(1)} ${baseY} L ${pad.l.toFixed(
+            1
+          )} ${baseY} Z`;
+
+        // y gridlines at min / mid / max of the data range
+        const yTicks = [min, (min + max) / 2, max];
+        const grid = yTicks
+          .map((v) => {
+            const gy = y(v).toFixed(1);
+            return (
+              `<line class="grid" x1="${pad.l}" y1="${gy}" x2="${
+                W - pad.r
+              }" y2="${gy}"/>` +
+              `<text class="label" x="${pad.l - 6}" y="${(
+                +gy + 4
+              ).toFixed(1)}" text-anchor="end">${comma(v)}</text>`
+            );
+          })
+          .join("");
+
+        // x labels: first and last month (MM/AA)
+        const mmYY = (iso) => {
+          const [yy, mm] = iso.split("-");
+          return `${mm}/${yy.slice(2)}`;
+        };
+        const xLabels =
+          `<text class="label" x="${pad.l}" y="${H - 8}" text-anchor="start">${mmYY(
+            curated[0].date
+          )}</text>` +
+          `<text class="label" x="${W - pad.r}" y="${
+            H - 8
+          }" text-anchor="end">${mmYY(curated[curated.length - 1].date)}</text>`;
+
+        const dots = pts
+          .map(
+            (p, i) =>
+              `<circle class="${
+                i === pts.length - 1 ? "dot-last" : "dot"
+              }" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="${
+                i === pts.length - 1 ? 4 : 2.5
+              }"/>`
+          )
+          .join("");
+
+        document.getElementById("chart").innerHTML =
+          `<defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">` +
+          `<stop offset="0%" stop-color="#22d3ee" stop-opacity="0.25"/>` +
+          `<stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>` +
+          `</linearGradient></defs>` +
+          grid +
+          `<path class="area" d="${area}"/>` +
+          `<path class="line" pathLength="1" d="${line}"/>` +
+          dots +
+          xLabels;
+      })();
