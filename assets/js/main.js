@@ -54,32 +54,19 @@
           "hl.m1": "Colaboradores analisados em projetos de remuneração e carreira",
           "hl.m2": "Ganhos de produtividade em iniciativas de melhoria contínua",
           "hl.m3": "Equipes mentoradas em metodologia Lean",
-          "pipe.label": "Pipeline",
-          "pipe.title": "Como eu construo um pipeline de dados",
-          "pipe.intro":
-            "Um pipeline ETL real de carteira de crédito — clique em cada etapa para ver o código. O fluxo de dados anima da extração até a entrega.",
-          "pipe.s0name": "Extract",
-          "pipe.s0desc": "Consulta dados brutos da carteira no data lake.",
-          "pipe.s1name": "Transform",
-          "pipe.s1desc": "Limpa, classifica risco e agrega por cooperado.",
-          "pipe.s2name": "Load",
-          "pipe.s2desc": "Persiste a tabela curada e agenda a execução.",
-          "pipe.note":
-            "Exemplo ilustrativo baseado em pipelines de crédito e risco. Clique nas etapas para navegar.",
-          "dash.label": "Dashboards",
-          "dash.title": "Panorama econômico ao vivo",
-          "dash.intro":
-            "Dashboards construídos com dados reais e atualizados do Banco Central do Brasil — o mesmo tipo de visualização analítica que desenvolvo no dia a dia.",
-          "dash.selic": "Taxa Selic",
-          "dash.ipca": "IPCA (12 meses)",
-          "dash.usd": "Dólar (venda)",
-          "dash.eur": "Euro (venda)",
-          "dash.c1": "IPCA — variação mensal (12 meses)",
-          "dash.c2": "Dólar — últimos pregões (1 mês)",
-          "dash.c3": "Selic — taxa efetiva mensal (6 meses)",
-          "dash.loading": "Carregando dados ao vivo…",
-          "dash.error": "Não foi possível carregar os dados ao vivo.",
-          "dash.source": "Fonte",
+          "ina.label": "Crédito & Risco",
+          "ina.title": "Inadimplência do crédito — instituições públicas",
+          "ina.intro":
+            "Dashboard ao vivo da taxa de inadimplência da carteira de crédito das instituições financeiras sob controle público — dados abertos do Banco Central do Brasil, o tipo de indicador de risco que acompanho no dia a dia.",
+          "ina.current": "Taxa atual",
+          "ina.change": "Variação no mês",
+          "ina.min": "Mínima (3 anos)",
+          "ina.max": "Máxima (3 anos)",
+          "ina.chart": "Evolução mensal (últimos 36 meses)",
+          "ina.series": "Inadimplência (%)",
+          "ina.loading": "Carregando dados ao vivo…",
+          "ina.error": "Não foi possível carregar os dados ao vivo.",
+          "ina.source": "Fonte",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -141,32 +128,19 @@
           "hl.m1": "Employees analyzed in compensation and career projects",
           "hl.m2": "Productivity gains in continuous improvement initiatives",
           "hl.m3": "Teams mentored in Lean methodology",
-          "pipe.label": "Pipeline",
-          "pipe.title": "How I build a data pipeline",
-          "pipe.intro":
-            "A real credit-portfolio ETL pipeline — click each stage to see the code. Data flows from extraction through to delivery.",
-          "pipe.s0name": "Extract",
-          "pipe.s0desc": "Queries raw portfolio data from the data lake.",
-          "pipe.s1name": "Transform",
-          "pipe.s1desc": "Cleans, scores risk, and aggregates per member.",
-          "pipe.s2name": "Load",
-          "pipe.s2desc": "Persists the curated table and schedules the run.",
-          "pipe.note":
-            "Illustrative example based on credit and risk pipelines. Click the stages to navigate.",
-          "dash.label": "Dashboards",
-          "dash.title": "Live economic snapshot",
-          "dash.intro":
-            "Dashboards built from real, up-to-date Central Bank of Brazil data — the same kind of analytical visualization I build day to day.",
-          "dash.selic": "Selic rate",
-          "dash.ipca": "Inflation (IPCA, 12m)",
-          "dash.usd": "USD (sell)",
-          "dash.eur": "EUR (sell)",
-          "dash.c1": "IPCA — monthly change (12 months)",
-          "dash.c2": "USD/BRL — last sessions (1 month)",
-          "dash.c3": "Selic — effective monthly rate (6m)",
-          "dash.loading": "Loading live data…",
-          "dash.error": "Could not load live data.",
-          "dash.source": "Source",
+          "ina.label": "Credit & Risk",
+          "ina.title": "Credit default rate — public institutions",
+          "ina.intro":
+            "Live dashboard of the credit default rate (inadimplência) for publicly-controlled financial institutions — open data from the Central Bank of Brazil, the kind of risk indicator I track day to day.",
+          "ina.current": "Current rate",
+          "ina.change": "Change this month",
+          "ina.min": "Low (3 years)",
+          "ina.max": "High (3 years)",
+          "ina.chart": "Monthly evolution (last 36 months)",
+          "ina.series": "Default rate (%)",
+          "ina.loading": "Loading live data…",
+          "ina.error": "Could not load live data.",
+          "ina.source": "Source",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -201,138 +175,7 @@
 
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      /* ---------- ETL Pipeline showcase ---------- */
-      const snippets = [
-        {
-          fname: "extract.sql",
-          lang: "sql",
-          code: `-- Extract: carteira de credito bruta (AWS Athena)
-SELECT
-    cooperado_id,
-    contrato_id,
-    saldo_devedor,
-    dias_atraso,
-    data_referencia
-FROM raw.carteira_credito
-WHERE data_referencia = current_date
-  AND situacao = 'ATIVO';`,
-        },
-        {
-          fname: "transform.py",
-          lang: "python",
-          code: `# Transform: limpeza, classificacao de risco e agregacao
-from pyspark.sql import functions as F
-
-carteira = (
-    spark.table("raw.carteira_credito")
-    .withColumn("em_atraso", F.col("dias_atraso") > 0)
-    .withColumn(
-        "faixa_risco",
-        F.when(F.col("dias_atraso") > 90, "alto")
-         .when(F.col("dias_atraso") > 30, "medio")
-         .otherwise("baixo"),
-    )
-    .groupBy("cooperado_id", "faixa_risco")
-    .agg(
-        F.sum("saldo_devedor").alias("exposicao"),
-        F.avg("dias_atraso").alias("atraso_medio"),
-    )
-)`,
-        },
-        {
-          fname: "load.py",
-          lang: "python",
-          code: `# Load: grava tabela curada em Delta Lake
-(carteira.write
-    .format("delta")
-    .mode("overwrite")
-    .saveAsTable("analytics.carteira_risco"))
-
-# Orquestracao diaria com Airflow
-with DAG("etl_carteira_credito",
-         schedule="0 6 * * *",
-         catchup=False) as dag:
-    extract >> transform >> load`,
-        },
-      ];
-
-      function escapeHtml(s) {
-        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-      }
-
-      function highlight(code, lang) {
-        const isSql = lang === "sql";
-        const comment = isSql ? "--[^\\n]*" : "#[^\\n]*";
-        const keywords = isSql
-          ? "SELECT|FROM|WHERE|AND|OR|AS|GROUP\\s+BY|ORDER\\s+BY|JOIN|ON|CASE|WHEN|THEN|ELSE|END"
-          : "from|import|with|as|def|return|lambda|True|False|None|in|for|if";
-        const builtins = isSql
-          ? "current_date|SUM|AVG|COUNT|MIN|MAX"
-          : "spark|DAG|datetime|F";
-        const master = new RegExp(
-          "(?<com>" + comment + ")" +
-            "|(?<str>'[^']*'|\"[^\"]*\")" +
-            "|(?<num>\\b\\d+(?:\\.\\d+)?\\b)" +
-            "|(?<kw>\\b(?:" + keywords + ")\\b)" +
-            "|(?<fn>\\b(?:" + builtins + ")\\b)",
-          "g"
-        );
-        let out = "",
-          last = 0,
-          m;
-        while ((m = master.exec(code))) {
-          out += escapeHtml(code.slice(last, m.index));
-          const g = m.groups;
-          const cls = g.com
-            ? "tok-com"
-            : g.str
-            ? "tok-str"
-            : g.num
-            ? "tok-num"
-            : g.kw
-            ? "tok-kw"
-            : "tok-fn";
-          out += '<span class="' + cls + '">' + escapeHtml(m[0]) + "</span>";
-          last = m.index + m[0].length;
-        }
-        out += escapeHtml(code.slice(last));
-        return out;
-      }
-
-      const stages = [...document.querySelectorAll("#pipeline .stage")];
-      const codeBody = document.getElementById("codeBody");
-      const codeFname = document.getElementById("codeFname");
-      const codePre = codeBody.parentElement;
-      let activeStage = 0;
-      let cycleTimer = null;
-
-      function setStage(i, fromUser) {
-        activeStage = i;
-        stages.forEach((s, idx) => s.classList.toggle("active", idx === i));
-        codePre.classList.add("fade");
-        setTimeout(() => {
-          codeFname.textContent = snippets[i].fname;
-          codeBody.innerHTML = highlight(snippets[i].code, snippets[i].lang);
-          codePre.classList.remove("fade");
-        }, 200);
-        if (fromUser) restartCycle();
-      }
-
-      function nextStage() {
-        setStage((activeStage + 1) % snippets.length);
-      }
-
-      function restartCycle() {
-        clearInterval(cycleTimer);
-        cycleTimer = setInterval(nextStage, 5000);
-      }
-
-      stages.forEach((s, idx) => s.addEventListener("click", () => setStage(idx, true)));
-
-      codeBody.innerHTML = highlight(snippets[0].code, snippets[0].lang);
-      restartCycle();
-
-      /* ---------- Live dashboards: Banco Central do Brasil (SGS) ---------- */
+      /* ---------- Live dashboard: credit default rate (BCB SGS 13667) ---------- */
       const SGS = "https://api.bcb.gov.br/dados/serie/bcdata.sgs";
       const MONTHS = {
         pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
@@ -346,11 +189,22 @@ with DAG("etl_carteira_credito",
         return localStorage.getItem("lang") || "pt";
       }
 
-      async function fetchSeries(code, count, attempts = 4) {
-        // The BCB API occasionally returns a transient 400 under load — retry with backoff.
+      function brDateStr(date) {
+        const dd = String(date.getDate()).padStart(2, "0");
+        const mm = String(date.getMonth() + 1).padStart(2, "0");
+        return `${dd}/${mm}/${date.getFullYear()}`;
+      }
+
+      // Date-range queries are more reliable than `ultimos/N` for longer windows.
+      // The BCB API also occasionally returns a transient 400 under load — retry with backoff.
+      async function fetchRange(code, monthsBack, attempts = 5) {
+        const end = new Date();
+        const start = new Date();
+        start.setMonth(start.getMonth() - monthsBack);
+        const url = `${SGS}.${code}/dados?formato=json&dataInicial=${brDateStr(start)}&dataFinal=${brDateStr(end)}`;
         for (let i = 0; i < attempts; i++) {
           try {
-            const res = await fetch(`${SGS}.${code}/dados/ultimos/${count}?formato=json`);
+            const res = await fetch(url);
             if (!res.ok) throw new Error(`HTTP ${res.status} for series ${code}`);
             return await res.json();
           } catch (e) {
@@ -365,10 +219,10 @@ with DAG("etl_carteira_credito",
         return new Date(y, m - 1, d);
       }
 
-      function fmtNumber(raw) {
+      function fmtNumber(raw, digits = 2) {
         return Number(raw).toLocaleString(curLang() === "pt" ? "pt-BR" : "en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits,
         });
       }
 
@@ -376,175 +230,119 @@ with DAG("etl_carteira_credito",
         return `${MONTHS[curLang()][date.getMonth()]}/${String(date.getFullYear()).slice(2)}`;
       }
 
-      function fmtDay(date) {
-        const dd = String(date.getDate()).padStart(2, "0");
-        const mm = String(date.getMonth() + 1).padStart(2, "0");
-        return `${dd}/${mm}`;
+      let inaData = null; // [{ date, value }] sorted ascending
+      let inaChart = null;
+
+      function setKpi(kind, value, dateText, cls) {
+        const card = document.querySelector(`#inaKpis .kpi[data-kind="${kind}"]`);
+        if (!card) return;
+        const valueEl = card.querySelector(".kpi-value");
+        valueEl.textContent = value;
+        valueEl.classList.remove("error", "up", "down");
+        if (cls) valueEl.classList.add(cls);
+        card.querySelector(".kpi-date").textContent = dateText || "";
       }
 
-      const dashKpiCards = [...document.querySelectorAll("#dashKpis .kpi")];
-      let dashData = null;
-      const dashCharts = {};
+      function renderKpis() {
+        if (!inaData || !inaData.length) return;
+        const last = inaData[inaData.length - 1];
+        const prev = inaData[inaData.length - 2];
+        const values = inaData.map((p) => p.value);
+        const minVal = Math.min(...values);
+        const maxVal = Math.max(...values);
+        const minPt = inaData.find((p) => p.value === minVal);
+        const maxPt = inaData.find((p) => p.value === maxVal);
 
-      function formatKpi(card) {
-        const num = fmtNumber(card.dataset.raw);
-        return card.dataset.prefix ? `${card.dataset.unit} ${num}` : `${num} ${card.dataset.unit}`;
+        setKpi("current", `${fmtNumber(last.value)} %`, fmtMonth(last.date));
+
+        if (prev) {
+          const diff = last.value - prev.value;
+          const sign = diff > 0 ? "+" : diff < 0 ? "−" : "";
+          const cls = diff > 0 ? "up" : diff < 0 ? "down" : null;
+          setKpi("change", `${sign}${fmtNumber(Math.abs(diff))} pp`, fmtMonth(prev.date), cls);
+        }
+
+        setKpi("min", `${fmtNumber(minVal)} %`, fmtMonth(minPt.date));
+        setKpi("max", `${fmtNumber(maxVal)} %`, fmtMonth(maxPt.date));
       }
 
-      async function loadKpis() {
-        await Promise.all(
-          dashKpiCards.map(async (card) => {
-            const valueEl = card.querySelector(".kpi-value");
-            const dateEl = card.querySelector(".kpi-date");
-            try {
-              const [p] = await fetchSeries(card.dataset.series, 1);
-              card.dataset.raw = p.valor;
-              valueEl.textContent = formatKpi(card);
-              valueEl.classList.remove("error");
-              dateEl.textContent = p.data;
-            } catch (e) {
-              valueEl.textContent = "—";
-              valueEl.classList.add("error");
-              console.error(e);
-            }
-          })
-        );
-      }
-
-      function refreshKpiLabels() {
-        dashKpiCards.forEach((card) => {
-          if (card.dataset.raw !== undefined) {
-            card.querySelector(".kpi-value").textContent = formatKpi(card);
-          }
-        });
-      }
-
-      function baseOptions(yFmt, tipFmt) {
-        return {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: { duration: 600 },
-          plugins: {
-            legend: { display: false },
-            tooltip: { callbacks: { label: tipFmt } },
-          },
-          scales: {
-            x: {
-              ticks: { color: AXIS, maxRotation: 0, autoSkip: true, maxTicksLimit: 8 },
-              grid: { color: GRID },
-            },
-            y: { ticks: { color: AXIS, callback: yFmt }, grid: { color: GRID } },
-          },
-        };
-      }
-
-      function drawChart(id, config) {
-        if (dashCharts[id]) dashCharts[id].destroy();
-        dashCharts[id] = new Chart(document.getElementById(id), config);
-      }
-
-      function renderCharts() {
-        if (!dashData || typeof Chart === "undefined") return;
-
-        drawChart("chartIpca", {
-          type: "bar",
-          data: {
-            labels: dashData.ipca.map((p) => fmtMonth(p.date)),
-            datasets: [
-              {
-                data: dashData.ipca.map((p) => p.value),
-                backgroundColor: "rgba(34, 211, 238, 0.55)",
-                borderColor: ACCENT,
-                borderWidth: 1,
-                borderRadius: 4,
-              },
-            ],
-          },
-          options: baseOptions(
-            (v) => `${v}%`,
-            (c) => `${c.parsed.y.toFixed(2)}%`
-          ),
-        });
-
-        drawChart("chartUsd", {
+      function renderChart() {
+        if (!inaData || typeof Chart === "undefined") return;
+        if (inaChart) inaChart.destroy();
+        inaChart = new Chart(document.getElementById("chartIna"), {
           type: "line",
           data: {
-            labels: dashData.usd.map((p) => fmtDay(p.date)),
+            labels: inaData.map((p) => fmtMonth(p.date)),
             datasets: [
               {
-                data: dashData.usd.map((p) => p.value),
+                label: translations[curLang()]["ina.series"],
+                data: inaData.map((p) => p.value),
                 borderColor: ACCENT,
                 backgroundColor: "rgba(34, 211, 238, 0.12)",
                 fill: true,
                 tension: 0.3,
                 pointRadius: 2,
+                pointHoverRadius: 5,
                 borderWidth: 2,
               },
             ],
           },
-          options: baseOptions(
-            (v) => `R$ ${v}`,
-            (c) => `R$ ${c.parsed.y.toFixed(4)}`
-          ),
-        });
-
-        drawChart("chartSelic", {
-          type: "line",
-          data: {
-            labels: dashData.selic.map((p) => fmtMonth(p.date)),
-            datasets: [
-              {
-                data: dashData.selic.map((p) => p.value),
-                borderColor: ACCENT,
-                backgroundColor: "rgba(34, 211, 238, 0.1)",
-                fill: true,
-                tension: 0.3,
-                pointRadius: 3,
-                borderWidth: 2,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 600 },
+            plugins: {
+              legend: { display: false },
+              tooltip: { callbacks: { label: (c) => `${c.parsed.y.toFixed(2)}%` } },
+            },
+            scales: {
+              x: {
+                ticks: { color: AXIS, maxRotation: 0, autoSkip: true, maxTicksLimit: 9 },
+                grid: { color: GRID },
               },
-            ],
+              y: {
+                ticks: { color: AXIS, callback: (v) => `${Number(v).toFixed(1)}%` },
+                grid: { color: GRID },
+              },
+            },
           },
-          options: baseOptions(
-            (v) => `${v}%`,
-            (c) => `${c.parsed.y.toFixed(2)}% a.a.`
-          ),
         });
       }
 
-      function showDashError(status) {
-        status.textContent = translations[curLang()]["dash.error"];
+      function showInaError(status) {
+        status.textContent = translations[curLang()]["ina.error"];
         status.classList.add("error");
+        document.querySelectorAll("#inaKpis .kpi-value").forEach((el) => {
+          el.textContent = "—";
+          el.classList.add("error");
+        });
       }
 
-      async function loadDashboard() {
-        const status = document.getElementById("dashStatus");
+      async function loadInadimplencia() {
+        const status = document.getElementById("inaStatus");
         if (typeof Chart === "undefined") {
-          showDashError(status);
+          showInaError(status);
           return;
         }
         try {
-          const [ipca, usd, selic] = await Promise.all([
-            fetchSeries(433, 12), // IPCA monthly variation
-            fetchSeries(1, 20), // USD/BRL daily (~1 trading month)
-            fetchSeries(4189, 6), // Selic effective monthly rate, last 6 months
-          ]);
-          const map = (arr) =>
-            arr
-              .map((p) => ({ date: parseBrDate(p.data), value: Number(p.valor) }))
-              .sort((a, b) => a.date - b.date);
-          dashData = { ipca: map(ipca), usd: map(usd), selic: map(selic) };
-          renderCharts();
+          const raw = await fetchRange(13667, 37); // monthly default rate, last ~3 years
+          inaData = raw
+            .map((p) => ({ date: parseBrDate(p.data), value: Number(p.valor) }))
+            .sort((a, b) => a.date - b.date)
+            .slice(-36);
+          renderKpis();
+          renderChart();
           status.classList.add("hidden");
         } catch (e) {
-          showDashError(status);
+          showInaError(status);
           console.error(e);
         }
       }
 
       document.addEventListener("langchange", () => {
-        refreshKpiLabels();
-        renderCharts();
+        if (!inaData) return;
+        renderKpis();
+        renderChart();
       });
 
-      loadKpis();
-      loadDashboard();
+      loadInadimplencia();

@@ -178,102 +178,53 @@
       </div>
     </section>
 
-    <!-- ---------- ETL Pipeline showcase ---------- -->
-    <section id="pipeline">
-      <div class="section-label" data-i18n="pipe.label">Pipeline</div>
-      <h2 data-i18n="pipe.title">Como eu construo um pipeline de dados</h2>
-      <p class="pipe-intro" data-i18n="pipe.intro">
-        Um pipeline ETL real de carteira de crédito — clique em cada etapa para
-        ver o código. O fluxo de dados anima da extração até a entrega.
-      </p>
-
-      <div class="pipeline" id="pipeline">
-        <button class="stage active" data-stage="0">
-          <div class="stage-step">01</div>
-          <div class="stage-name" data-i18n="pipe.s0name">Extract</div>
-          <span class="stage-tool">SQL · Athena</span>
-          <div class="stage-desc" data-i18n="pipe.s0desc">Consulta dados brutos da carteira no data lake.</div>
-        </button>
-        <div class="connector"></div>
-        <button class="stage" data-stage="1">
-          <div class="stage-step">02</div>
-          <div class="stage-name" data-i18n="pipe.s1name">Transform</div>
-          <span class="stage-tool">PySpark · Databricks</span>
-          <div class="stage-desc" data-i18n="pipe.s1desc">Limpa, classifica risco e agrega por cooperado.</div>
-        </button>
-        <div class="connector delay"></div>
-        <button class="stage" data-stage="2">
-          <div class="stage-step">03</div>
-          <div class="stage-name" data-i18n="pipe.s2name">Load</div>
-          <span class="stage-tool">Delta · Airflow</span>
-          <div class="stage-desc" data-i18n="pipe.s2desc">Persiste a tabela curada e agenda a execução.</div>
-        </button>
-      </div>
-
-      <div class="code-panel">
-        <div class="code-head">
-          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          <span class="fname" id="codeFname">extract.sql</span>
-        </div>
-        <pre><code id="codeBody"></code></pre>
-      </div>
-
-      <p class="pipe-source" data-i18n="pipe.note">
-        Exemplo ilustrativo baseado em pipelines de crédito e risco. Clique nas etapas para navegar.
-      </p>
-    </section>
-
-    <!-- ---------- Live Dashboard ---------- -->
+    <!-- ---------- Live Dashboard: Inadimplência ---------- -->
     <section id="dashboard">
-      <div class="section-label" data-i18n="dash.label">Dashboards</div>
-      <h2 data-i18n="dash.title">Panorama econômico ao vivo</h2>
-      <p class="dash-intro" data-i18n="dash.intro">
-        Dashboards construídos com dados reais e atualizados do Banco Central do
-        Brasil — o mesmo tipo de visualização analítica que desenvolvo no dia a dia.
+      <div class="section-label" data-i18n="ina.label">Crédito & Risco</div>
+      <h2 data-i18n="ina.title">Inadimplência do crédito — instituições públicas</h2>
+      <p class="dash-intro" data-i18n="ina.intro">
+        Dashboard ao vivo da taxa de inadimplência da carteira de crédito das
+        instituições financeiras sob controle público — dados abertos do Banco
+        Central do Brasil, o tipo de indicador de risco que acompanho no dia a dia.
       </p>
 
-      <div class="kpis" id="dashKpis">
-        <div class="kpi" data-series="432" data-unit="% a.a.">
-          <div class="kpi-label" data-i18n="dash.selic">Taxa Selic</div>
+      <div class="kpis" id="inaKpis">
+        <div class="kpi" data-kind="current">
+          <div class="kpi-label" data-i18n="ina.current">Taxa atual</div>
           <div class="kpi-value">…</div>
           <div class="kpi-date"></div>
         </div>
-        <div class="kpi" data-series="13522" data-unit="%">
-          <div class="kpi-label" data-i18n="dash.ipca">IPCA (12 meses)</div>
+        <div class="kpi" data-kind="change">
+          <div class="kpi-label" data-i18n="ina.change">Variação no mês</div>
           <div class="kpi-value">…</div>
           <div class="kpi-date"></div>
         </div>
-        <div class="kpi" data-series="1" data-unit="R$" data-prefix="true">
-          <div class="kpi-label" data-i18n="dash.usd">Dólar (venda)</div>
+        <div class="kpi" data-kind="min">
+          <div class="kpi-label" data-i18n="ina.min">Mínima (3 anos)</div>
           <div class="kpi-value">…</div>
           <div class="kpi-date"></div>
         </div>
-        <div class="kpi" data-series="21619" data-unit="R$" data-prefix="true">
-          <div class="kpi-label" data-i18n="dash.eur">Euro (venda)</div>
+        <div class="kpi" data-kind="max">
+          <div class="kpi-label" data-i18n="ina.max">Máxima (3 anos)</div>
           <div class="kpi-value">…</div>
           <div class="kpi-date"></div>
         </div>
       </div>
 
-      <div class="chart-grid">
-        <div class="chart-box">
-          <h3 data-i18n="dash.c1">IPCA — variação mensal (12 meses)</h3>
-          <div class="chart-wrap"><canvas id="chartIpca"></canvas></div>
-        </div>
-        <div class="chart-box">
-          <h3 data-i18n="dash.c2">Dólar — últimos pregões (1 mês)</h3>
-          <div class="chart-wrap"><canvas id="chartUsd"></canvas></div>
-        </div>
-        <div class="chart-box chart-wide">
-          <h3 data-i18n="dash.c3">Selic — taxa efetiva mensal (6 meses)</h3>
-          <div class="chart-wrap"><canvas id="chartSelic"></canvas></div>
-        </div>
+      <div class="chart-box chart-tall">
+        <h3 data-i18n="ina.chart">Evolução mensal (últimos 36 meses)</h3>
+        <div class="chart-wrap"><canvas id="chartIna"></canvas></div>
       </div>
 
-      <div class="dash-status" id="dashStatus" data-i18n="dash.loading">Carregando dados ao vivo…</div>
+      <div class="dash-status" id="inaStatus" data-i18n="ina.loading">Carregando dados ao vivo…</div>
       <p class="dash-source">
-        <span data-i18n="dash.source">Fonte</span>:
-        <a href="https://dadosabertos.bcb.gov.br/" target="_blank" rel="noopener">Banco Central do Brasil — Dados Abertos (SGS)</a>
+        <span data-i18n="ina.source">Fonte</span>:
+        <a
+          href="https://dadosabertos.bcb.gov.br/dataset/13667-inadimplencia-da-carteira-de-credito-das-instituicoes-financeiras-sob-controle-publico---tota"
+          target="_blank"
+          rel="noopener"
+          >Banco Central do Brasil — Dados Abertos (SGS 13667)</a
+        >
       </p>
     </section>
 
