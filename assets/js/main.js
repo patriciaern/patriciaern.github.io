@@ -60,13 +60,29 @@
             "Dashboard ao vivo da taxa de inadimplência da carteira de crédito das instituições financeiras sob controle público — dados abertos do Banco Central do Brasil, o tipo de indicador de risco que acompanho no dia a dia.",
           "ina.current": "Taxa atual",
           "ina.change": "Variação no mês",
+          "ina.change12": "Variação em 12 meses",
+          "ina.avg": "Média (3 anos)",
           "ina.min": "Mínima (3 anos)",
           "ina.max": "Máxima (3 anos)",
           "ina.chart": "Evolução mensal (últimos 36 meses)",
           "ina.series": "Inadimplência (%)",
+          "ina.avgline": "Média do período",
           "ina.loading": "Carregando dados ao vivo…",
           "ina.error": "Não foi possível carregar os dados ao vivo.",
           "ina.source": "Fonte",
+          "ina.metatitle": "Ficha técnica do indicador",
+          "ina.m_measure": "O que mede",
+          "ina.m_measure_v": "Percentual da carteira de crédito com atraso superior a 90 dias.",
+          "ina.m_scope": "Abrangência",
+          "ina.m_scope_v": "Instituições financeiras sob controle público (Total).",
+          "ina.m_unit": "Unidade",
+          "ina.m_unit_v": "% (percentual)",
+          "ina.m_freq": "Periodicidade",
+          "ina.m_freq_v": "Mensal",
+          "ina.m_series": "Série (SGS)",
+          "ina.m_period": "Período coberto",
+          "ina.m_updated": "Última atualização",
+          "ina.m_count": "Observações",
           "sk.label": "Habilidades na prática",
           "sk.title": "O código por trás do dashboard",
           "sk.intro":
@@ -140,13 +156,29 @@
             "Live dashboard of the credit default rate (inadimplência) for publicly-controlled financial institutions — open data from the Central Bank of Brazil, the kind of risk indicator I track day to day.",
           "ina.current": "Current rate",
           "ina.change": "Change this month",
+          "ina.change12": "Change over 12 months",
+          "ina.avg": "Average (3 years)",
           "ina.min": "Low (3 years)",
           "ina.max": "High (3 years)",
           "ina.chart": "Monthly evolution (last 36 months)",
           "ina.series": "Default rate (%)",
+          "ina.avgline": "Period average",
           "ina.loading": "Loading live data…",
           "ina.error": "Could not load live data.",
           "ina.source": "Source",
+          "ina.metatitle": "Indicator fact sheet",
+          "ina.m_measure": "What it measures",
+          "ina.m_measure_v": "Share of the credit portfolio overdue by more than 90 days.",
+          "ina.m_scope": "Scope",
+          "ina.m_scope_v": "Publicly-controlled financial institutions (Total).",
+          "ina.m_unit": "Unit",
+          "ina.m_unit_v": "% (percentage)",
+          "ina.m_freq": "Frequency",
+          "ina.m_freq_v": "Monthly",
+          "ina.m_series": "Series (SGS)",
+          "ina.m_period": "Period covered",
+          "ina.m_updated": "Last updated",
+          "ina.m_count": "Data points",
           "sk.label": "Skills in action",
           "sk.title": "The code behind the dashboard",
           "sk.intro":
@@ -255,10 +287,21 @@
         card.querySelector(".kpi-date").textContent = dateText || "";
       }
 
+      function avgOf(arr) {
+        return arr.reduce((s, v) => s + v, 0) / arr.length;
+      }
+
+      function ppDelta(kind, diff, dateText) {
+        const sign = diff > 0 ? "+" : diff < 0 ? "−" : "";
+        const cls = diff > 0 ? "up" : diff < 0 ? "down" : null;
+        setKpi(kind, `${sign}${fmtNumber(Math.abs(diff))} pp`, dateText, cls);
+      }
+
       function renderKpis() {
         if (!inaData || !inaData.length) return;
         const last = inaData[inaData.length - 1];
         const prev = inaData[inaData.length - 2];
+        const yearAgo = inaData[inaData.length - 13];
         const values = inaData.map((p) => p.value);
         const minVal = Math.min(...values);
         const maxVal = Math.max(...values);
@@ -266,36 +309,59 @@
         const maxPt = inaData.find((p) => p.value === maxVal);
 
         setKpi("current", `${fmtNumber(last.value)} %`, fmtMonth(last.date));
-
-        if (prev) {
-          const diff = last.value - prev.value;
-          const sign = diff > 0 ? "+" : diff < 0 ? "−" : "";
-          const cls = diff > 0 ? "up" : diff < 0 ? "down" : null;
-          setKpi("change", `${sign}${fmtNumber(Math.abs(diff))} pp`, fmtMonth(prev.date), cls);
-        }
-
+        if (prev) ppDelta("change", last.value - prev.value, fmtMonth(prev.date));
+        if (yearAgo) ppDelta("change12", last.value - yearAgo.value, fmtMonth(yearAgo.date));
+        setKpi("avg", `${fmtNumber(avgOf(values))} %`, `${inaData.length} ${curLang() === "pt" ? "meses" : "months"}`);
         setKpi("min", `${fmtNumber(minVal)} %`, fmtMonth(minPt.date));
         setKpi("max", `${fmtNumber(maxVal)} %`, fmtMonth(maxPt.date));
+
+        // fact-sheet dynamic fields
+        const fmtFull = (d) =>
+          `${MONTHS[curLang()][d.getMonth()]}/${d.getFullYear()}`;
+        const periodEl = document.getElementById("metaPeriod");
+        const updatedEl = document.getElementById("metaUpdated");
+        const countEl = document.getElementById("metaCount");
+        if (periodEl) periodEl.textContent = `${fmtFull(inaData[0].date)} – ${fmtFull(last.date)}`;
+        if (updatedEl) updatedEl.textContent = fmtFull(last.date);
+        if (countEl) countEl.textContent = String(inaData.length);
       }
 
       function renderChart() {
         if (!inaData || typeof Chart === "undefined") return;
         if (inaChart) inaChart.destroy();
+        const values = inaData.map((p) => p.value);
+        const lastIndex = inaData.length - 1;
+        const avg = avgOf(values);
+        const dict = translations[curLang()];
         inaChart = new Chart(document.getElementById("chartIna"), {
           type: "line",
           data: {
             labels: inaData.map((p) => fmtMonth(p.date)),
             datasets: [
               {
-                label: translations[curLang()]["ina.series"],
-                data: inaData.map((p) => p.value),
+                label: dict["ina.series"],
+                data: values,
                 borderColor: ACCENT,
                 backgroundColor: "rgba(34, 211, 238, 0.12)",
                 fill: true,
                 tension: 0.3,
-                pointRadius: 2,
-                pointHoverRadius: 5,
+                pointRadius: (ctx) => (ctx.dataIndex === lastIndex ? 5 : 2),
+                pointHoverRadius: 6,
+                pointBackgroundColor: (ctx) =>
+                  ctx.dataIndex === lastIndex ? "#fff" : ACCENT,
                 borderWidth: 2,
+                order: 2,
+              },
+              {
+                label: dict["ina.avgline"],
+                data: values.map(() => avg),
+                borderColor: "#94a3b8",
+                borderDash: [6, 5],
+                borderWidth: 1.5,
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                fill: false,
+                order: 1,
               },
             ],
           },
@@ -303,9 +369,22 @@
             responsive: true,
             maintainAspectRatio: false,
             animation: { duration: 600 },
+            interaction: { mode: "index", intersect: false },
             plugins: {
-              legend: { display: false },
-              tooltip: { callbacks: { label: (c) => `${c.parsed.y.toFixed(2)}%` } },
+              legend: {
+                display: true,
+                position: "bottom",
+                labels: { color: AXIS, usePointStyle: true, boxWidth: 8, padding: 16 },
+              },
+              tooltip: {
+                callbacks: {
+                  title: (items) => {
+                    const d = inaData[items[0].dataIndex].date;
+                    return `${MONTHS[curLang()][d.getMonth()]}/${d.getFullYear()}`;
+                  },
+                  label: (c) => `${c.dataset.label}: ${c.parsed.y.toFixed(2)}%`,
+                },
+              },
             },
             scales: {
               x: {

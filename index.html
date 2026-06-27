@@ -199,6 +199,16 @@
           <div class="kpi-value">…</div>
           <div class="kpi-date"></div>
         </div>
+        <div class="kpi" data-kind="change12">
+          <div class="kpi-label" data-i18n="ina.change12">Variação em 12 meses</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
+        <div class="kpi" data-kind="avg">
+          <div class="kpi-label" data-i18n="ina.avg">Média (3 anos)</div>
+          <div class="kpi-value">…</div>
+          <div class="kpi-date"></div>
+        </div>
         <div class="kpi" data-kind="min">
           <div class="kpi-label" data-i18n="ina.min">Mínima (3 anos)</div>
           <div class="kpi-value">…</div>
@@ -214,6 +224,46 @@
       <div class="chart-box chart-tall">
         <h3 data-i18n="ina.chart">Evolução mensal (últimos 36 meses)</h3>
         <div class="chart-wrap"><canvas id="chartIna"></canvas></div>
+      </div>
+
+      <div class="indicator-meta">
+        <div class="meta-title" data-i18n="ina.metatitle">Ficha técnica do indicador</div>
+        <dl class="meta-grid">
+          <div class="meta-item">
+            <dt data-i18n="ina.m_measure">O que mede</dt>
+            <dd data-i18n="ina.m_measure_v">
+              Percentual da carteira de crédito com atraso superior a 90 dias.
+            </dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_scope">Abrangência</dt>
+            <dd data-i18n="ina.m_scope_v">Instituições financeiras sob controle público (Total).</dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_unit">Unidade</dt>
+            <dd data-i18n="ina.m_unit_v">% (percentual)</dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_freq">Periodicidade</dt>
+            <dd data-i18n="ina.m_freq_v">Mensal</dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_series">Série (SGS)</dt>
+            <dd>13667</dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_period">Período coberto</dt>
+            <dd id="metaPeriod">—</dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_updated">Última atualização</dt>
+            <dd id="metaUpdated">—</dd>
+          </div>
+          <div class="meta-item">
+            <dt data-i18n="ina.m_count">Observações</dt>
+            <dd id="metaCount">—</dd>
+          </div>
+        </dl>
       </div>
 
       <div class="dash-status" id="inaStatus" data-i18n="ina.loading">Carregando dados ao vivo…</div>

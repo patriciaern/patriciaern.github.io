@@ -384,11 +384,12 @@ header.hero h1 {
 
 .kpi-value {
   font-family: var(--mono);
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--accent);
   margin: 0.35rem 0 0.15rem;
   min-height: 2rem;
+  white-space: nowrap;
 }
 
 .kpi-value.error {
@@ -461,6 +462,42 @@ header.hero h1 {
   font-size: 0.8rem;
   color: var(--muted);
   margin-top: 0.5rem;
+}
+
+.indicator-meta {
+  margin-top: 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.meta-title {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 1.1rem;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem 1.5rem;
+  margin: 0;
+}
+
+.meta-item dt {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.meta-item dd {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text);
 }
 
 /* ---------- Skills in action (animated code) ---------- */
