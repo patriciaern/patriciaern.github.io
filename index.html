@@ -12,7 +12,6 @@
   </head>
   <body>
     <nav>
-      <a href="#" class="brand">PE<span>.</span></a>
       <div class="links">
         <a href="#about" data-i18n="nav.about">Sobre</a>
         <a href="#skills" data-i18n="nav.skills">Competências</a>
@@ -49,15 +48,15 @@
 
     <!-- ---------- About ---------- -->
     <section id="about" class="about">
-      <div class="section-label" data-i18n="about.label">Sobre</div>
-      <h2 data-i18n="about.title">Resumo profissional</h2>
-      <p data-i18n="about.p1">
+      <div class="section-label reveal" data-i18n="about.label">Sobre</div>
+      <h2 class="reveal" data-i18n="about.title">Resumo profissional</h2>
+      <p class="reveal" data-i18n="about.p1">
         Profissional com mais de 5 anos de experiência em dados, atuando nos
         segmentos de tecnologia, crédito e serviços financeiros. Experiência em
         construção de soluções analíticas, modelagem de dados, processos ETL,
         governança de dados e suporte à tomada de decisão.
       </p>
-      <p data-i18n="about.p2">
+      <p class="reveal" data-i18n="about.p2">
         Perfil analítico, com capacidade de traduzir necessidades de negócio em
         soluções baseadas em dados, garantindo qualidade e confiabilidade das
         informações. Objetivo profissional: atuar como Analytics Engineer.
@@ -66,10 +65,10 @@
 
     <!-- ---------- Skills ---------- -->
     <section id="skills">
-      <div class="section-label" data-i18n="skills.label">Competências</div>
-      <h2 data-i18n="skills.title">Habilidades & Tecnologias</h2>
+      <div class="section-label reveal" data-i18n="skills.label">Competências</div>
+      <h2 class="reveal" data-i18n="skills.title">Habilidades & Tecnologias</h2>
 
-      <div class="skill-group">
+      <div class="skill-group reveal">
         <h3 data-i18n="skills.data">Dados & ETL</h3>
         <div class="chips">
           <span class="chip">Databricks</span>
@@ -82,7 +81,7 @@
         </div>
       </div>
 
-      <div class="skill-group">
+      <div class="skill-group reveal">
         <h3 data-i18n="skills.bi">Business Intelligence</h3>
         <div class="chips">
           <span class="chip">Power BI</span>
@@ -91,7 +90,7 @@
         </div>
       </div>
 
-      <div class="skill-group">
+      <div class="skill-group reveal">
         <h3 data-i18n="skills.auto">Automação & Versionamento</h3>
         <div class="chips">
           <span class="chip">Power Automate</span>
@@ -99,7 +98,7 @@
         </div>
       </div>
 
-      <div class="skill-group">
+      <div class="skill-group reveal">
         <h3 data-i18n="skills.found">Fundamentos</h3>
         <div class="chips">
           <span class="chip neutral" data-i18n="skills.f1">Modelagem de dados</span>
@@ -109,7 +108,7 @@
         </div>
       </div>
 
-      <div class="skill-group">
+      <div class="skill-group reveal">
         <h3 data-i18n="skills.lang">Idiomas</h3>
         <div class="chips">
           <span class="chip neutral" data-i18n="skills.langpt">Português — nativo</span>
@@ -120,10 +119,10 @@
 
     <!-- ---------- Experience ---------- -->
     <section id="experience">
-      <div class="section-label" data-i18n="exp.label">Experiência</div>
-      <h2 data-i18n="exp.title">Trajetória profissional</h2>
+      <div class="section-label reveal" data-i18n="exp.label">Experiência</div>
+      <h2 class="reveal" data-i18n="exp.title">Trajetória profissional</h2>
 
-      <div class="timeline">
+      <div class="timeline reveal-stagger">
         <div class="job">
           <p class="role">Analista de Dados — Viacredi</p>
           <p class="meta">07/2024 — <span data-i18n="exp.present">atual</span> · Blumenau, SC</p>
@@ -160,19 +159,19 @@
 
     <!-- ---------- Highlights ---------- -->
     <section id="highlights">
-      <div class="section-label" data-i18n="hl.label">Resultados</div>
-      <h2 data-i18n="hl.title">Principais resultados</h2>
-      <div class="metrics">
+      <div class="section-label reveal" data-i18n="hl.label">Resultados</div>
+      <h2 class="reveal" data-i18n="hl.title">Principais resultados</h2>
+      <div class="metrics reveal-stagger">
         <div class="metric">
-          <div class="num">2.400+</div>
+          <div class="num" data-target="2400" data-suffix="+">2.400+</div>
           <div class="desc" data-i18n="hl.m1">Colaboradores analisados em projetos de remuneração e carreira</div>
         </div>
         <div class="metric">
-          <div class="num">110%+</div>
+          <div class="num" data-target="110" data-suffix="%+">110%+</div>
           <div class="desc" data-i18n="hl.m2">Ganhos de produtividade em iniciativas de melhoria contínua</div>
         </div>
         <div class="metric">
-          <div class="num">12+</div>
+          <div class="num" data-target="12" data-suffix="+">12+</div>
           <div class="desc" data-i18n="hl.m3">Equipes mentoradas em metodologia Lean</div>
         </div>
       </div>
@@ -180,9 +179,9 @@
 
     <!-- ---------- ETL Pipeline showcase ---------- -->
     <section id="pipeline">
-      <div class="section-label" data-i18n="pipe.label">Pipeline</div>
-      <h2 data-i18n="pipe.title">Como eu construo um pipeline de dados</h2>
-      <p class="pipe-intro" data-i18n="pipe.intro">
+      <div class="section-label reveal" data-i18n="pipe.label">Pipeline</div>
+      <h2 class="reveal" data-i18n="pipe.title">Como eu construo um pipeline de dados</h2>
+      <p class="pipe-intro reveal" data-i18n="pipe.intro">
         Um pipeline ETL real de carteira de crédito — clique em cada etapa para
         ver o código. O fluxo de dados anima da extração até a entrega.
       </p>
@@ -210,7 +209,7 @@
         </button>
       </div>
 
-      <div class="code-panel">
+      <div class="code-panel reveal">
         <div class="code-head">
           <span class="dot"></span><span class="dot"></span><span class="dot"></span>
           <span class="fname" id="codeFname">extract.sql</span>
@@ -219,7 +218,7 @@
       </div>
 
       <!-- Before / After ETL data -->
-      <div class="etl-data">
+      <div class="etl-data reveal">
         <h3 class="etl-subtitle" data-i18n="etl.title">Antes e depois do ETL</h3>
         <p class="etl-intro" data-i18n="etl.intro">
           Os mesmos registros antes e depois da transformação: tipos
@@ -252,7 +251,7 @@
       </div>
 
       <!-- Dashboard -->
-      <div class="dashboard">
+      <div class="dashboard reveal">
         <h3 class="etl-subtitle" data-i18n="dash.title">Dashboard — inadimplência do crédito público</h3>
         <p class="etl-intro" data-i18n="dash.intro">
           A série curada, pronta para análise — métricas-chave e tendência dos
@@ -297,9 +296,9 @@
 
     <!-- ---------- Education ---------- -->
     <section id="education">
-      <div class="section-label" data-i18n="edu.label">Formação</div>
-      <h2 data-i18n="edu.title">Formação acadêmica</h2>
-      <div class="edu">
+      <div class="section-label reveal" data-i18n="edu.label">Formação</div>
+      <h2 class="reveal" data-i18n="edu.title">Formação acadêmica</h2>
+      <div class="edu reveal">
         <h3 data-i18n="edu.degree">Bacharelado em Engenharia Mecânica</h3>
         <div class="meta">UNIASSELVI</div>
       </div>
@@ -307,8 +306,8 @@
 
     <!-- ---------- Footer / Contact ---------- -->
     <footer id="contact">
-      <h2 data-i18n="contact.title">Vamos conversar</h2>
-      <p data-i18n="contact.text">
+      <h2 class="reveal" data-i18n="contact.title">Vamos conversar</h2>
+      <p class="reveal" data-i18n="contact.text">
         Aberta a oportunidades como Analytics Engineer. Conecte-se comigo.
       </p>
       <div class="social">

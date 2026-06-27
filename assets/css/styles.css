@@ -38,22 +38,11 @@ nav {
   z-index: 50;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0.9rem 1.5rem;
   background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--card-border);
-}
-
-nav .brand {
-  font-family: var(--mono);
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.5px;
-}
-
-nav .brand span {
-  color: var(--accent);
 }
 
 nav .links {
@@ -942,5 +931,122 @@ footer .copyright {
   }
   .kpi-num {
     font-size: 1.55rem;
+  }
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal,
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.in,
+.reveal-stagger.in > * {
+  opacity: 1;
+  transform: none;
+}
+
+/* animated underline grows when a section label reveals */
+.section-label {
+  display: inline-block;
+}
+
+.section-label::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 0;
+  margin-top: 6px;
+  border-radius: 2px;
+  background: var(--accent);
+  transition: width 0.7s ease 0.25s;
+}
+
+.section-label.in::after {
+  width: 38px;
+}
+
+/* ---------- Hero entrance + motion ---------- */
+.hero-content > * {
+  opacity: 0;
+  animation: heroIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-content > h1 {
+  animation-delay: 0.22s;
+}
+.hero-content > .hero-title {
+  animation-delay: 0.36s;
+}
+.hero-content > .hero-tagline {
+  animation-delay: 0.5s;
+}
+.hero-content > .social {
+  animation-delay: 0.64s;
+}
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- Hover polish ---------- */
+.chip {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.chip:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 16px rgba(34, 211, 238, 0.16);
+}
+
+.chip.neutral:hover {
+  color: var(--accent);
+}
+
+.social a {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.social a:hover {
+  box-shadow: 0 8px 20px rgba(34, 211, 238, 0.18);
+}
+
+.metric:hover,
+.kpi:hover {
+  box-shadow: 0 12px 30px rgba(34, 211, 238, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .section-label.in::after {
+    transition: none;
+  }
+  .hero-content > * {
+    opacity: 1;
+    animation: none;
   }
 }

@@ -491,3 +491,65 @@ with DAG("etl_inadimplencia_bcb",
           dots +
           xLabels;
       })();
+
+      /* ---------- Scroll reveals + count-up ---------- */
+      (function motion() {
+        const ptBR = (n) => Math.round(n).toLocaleString("pt-BR");
+        const counters = [...document.querySelectorAll("[data-target]")];
+        const finalText = (el) => ptBR(+el.dataset.target) + (el.dataset.suffix || "");
+
+        const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const revealEls = [...document.querySelectorAll(".reveal, .reveal-stagger")];
+
+        if (reduced || !("IntersectionObserver" in window)) {
+          revealEls.forEach((el) => el.classList.add("in"));
+          counters.forEach((el) => (el.textContent = finalText(el)));
+          return;
+        }
+
+        // Hide final values until the count-up runs, avoiding a flash.
+        counters.forEach((el) => (el.textContent = "0" + (el.dataset.suffix || "")));
+
+        const revealObs = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              const el = e.target;
+              if (el.classList.contains("reveal-stagger")) {
+                [...el.children].forEach((c, i) => {
+                  c.style.transitionDelay = i * 80 + "ms";
+                });
+              }
+              el.classList.add("in");
+              obs.unobserve(el);
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+        );
+        revealEls.forEach((el) => revealObs.observe(el));
+
+        function countUp(el) {
+          const target = +el.dataset.target;
+          const suffix = el.dataset.suffix || "";
+          const dur = 1200;
+          const start = performance.now();
+          (function tick(now) {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = ptBR(target * eased) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+          })(start);
+        }
+
+        const countObs = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((e) => {
+              if (!e.isIntersecting) return;
+              countUp(e.target);
+              obs.unobserve(e.target);
+            });
+          },
+          { threshold: 0.6 }
+        );
+        counters.forEach((el) => countObs.observe(el));
+      })();
