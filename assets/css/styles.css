@@ -351,186 +351,147 @@ header.hero h1 {
   color: var(--muted);
 }
 
-/* ---------- Live Dashboard ---------- */
-.dash-intro {
+/* ---------- ETL Pipeline showcase ---------- */
+.pipe-intro {
   color: var(--muted);
   max-width: 640px;
   margin: 0 0 2rem;
 }
 
-.kpis {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
+.pipeline {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
   margin-bottom: 1.75rem;
+  flex-wrap: wrap;
 }
 
-.kpi {
+.stage {
+  flex: 1 1 0;
+  min-width: 150px;
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: 14px;
-  padding: 1.25rem;
-  transition: border-color 0.2s;
+  padding: 1.1rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 
-.kpi:hover {
+.stage:hover {
+  transform: translateY(-3px);
+}
+
+.stage.active {
   border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), 0 0 24px rgba(34, 211, 238, 0.18);
 }
 
-.kpi-label {
-  font-size: 0.82rem;
-  color: var(--muted);
-}
-
-.kpi-value {
-  font-family: var(--mono);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--accent);
-  margin: 0.35rem 0 0.15rem;
-  min-height: 2rem;
-  white-space: nowrap;
-}
-
-.kpi-value.error {
-  color: #f87171;
-  font-size: 1rem;
-}
-
-.kpi-date {
+.stage .stage-step {
   font-family: var(--mono);
   font-size: 0.72rem;
+  letter-spacing: 1px;
   color: var(--muted);
 }
 
-.chart-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.chart-box {
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 1.25rem;
-}
-
-.chart-box.chart-wide {
-  grid-column: 1 / -1;
-}
-
-.chart-box h3 {
-  margin: 0 0 1rem;
-  font-size: 0.95rem;
-  color: var(--text);
-}
-
-.chart-wrap {
-  position: relative;
-  height: 240px;
-}
-
-.chart-tall .chart-wrap {
-  height: 320px;
-}
-
-.kpi-value.up {
-  color: #f87171;
-}
-
-.kpi-value.down {
-  color: #34d399;
-}
-
-.dash-status {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-top: 1rem;
-}
-
-.dash-status.error {
-  color: #f87171;
-}
-
-.dash-status.hidden {
-  display: none;
-}
-
-.dash-source {
-  font-size: 0.8rem;
-  color: var(--muted);
-  margin-top: 0.5rem;
-}
-
-.indicator-meta {
-  margin-top: 1.25rem;
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 14px;
-  padding: 1.5rem;
-}
-
-.meta-title {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
+.stage.active .stage-step {
   color: var(--accent);
-  margin-bottom: 1.1rem;
 }
 
-.meta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.1rem 1.5rem;
-  margin: 0;
+.stage .stage-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0.2rem 0 0.35rem;
 }
 
-.meta-item dt {
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-bottom: 0.2rem;
-}
-
-.meta-item dd {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--text);
-}
-
-/* ---------- Skills in action (animated code) ---------- */
-.skill-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.skill-tab {
+.stage .stage-tool {
   font-family: var(--mono);
-  font-size: 0.82rem;
-  background: transparent;
-  color: var(--muted);
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  padding: 0.45rem 0.9rem;
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
-}
-
-.skill-tab:hover {
-  color: var(--text);
-  border-color: var(--muted);
-}
-
-.skill-tab.active {
+  font-size: 0.72rem;
   color: var(--accent);
-  border-color: var(--accent);
   background: var(--accent-soft);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  border-radius: 6px;
+  padding: 0.1rem 0.45rem;
 }
 
+.stage .stage-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.6rem;
+}
+
+/* animated connector with flowing data dots */
+.connector {
+  flex: 0 0 46px;
+  align-self: center;
+  position: relative;
+  height: 2px;
+  background: var(--card-border);
+  overflow: visible;
+}
+
+.connector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: flow 1.8s linear infinite;
+}
+
+.connector.delay::after {
+  animation-delay: 0.9s;
+}
+
+@keyframes flow {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes flowV {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connector::after {
+    animation: none;
+    left: 50%;
+  }
+}
+
+/* code panel */
 .code-panel {
   background: #0b1220;
   border: 1px solid var(--card-border);
@@ -569,7 +530,6 @@ header.hero h1 {
   font-size: 0.83rem;
   line-height: 1.6;
   color: var(--text);
-  transition: opacity 0.25s, transform 0.25s;
 }
 
 .code-panel pre.fade {
@@ -577,30 +537,21 @@ header.hero h1 {
   transform: translateY(6px);
 }
 
-.tok-kw {
-  color: #c084fc;
-}
-.tok-str {
-  color: #34d399;
-}
-.tok-com {
-  color: #64748b;
-  font-style: italic;
-}
-.tok-num {
-  color: #fbbf24;
-}
-.tok-fn {
-  color: #22d3ee;
-}
-.tok-fld {
-  color: #f472b6;
+.code-panel pre {
+  transition: opacity 0.25s, transform 0.25s;
 }
 
-.skill-note {
+/* token colors */
+.tok-kw { color: #c084fc; }
+.tok-str { color: #34d399; }
+.tok-com { color: #64748b; font-style: italic; }
+.tok-num { color: #fbbf24; }
+.tok-fn { color: #22d3ee; }
+
+.pipe-source {
   font-size: 0.8rem;
   color: var(--muted);
-  margin-top: 0.75rem;
+  margin-top: 1rem;
 }
 
 /* ---------- Footer ---------- */
@@ -646,16 +597,35 @@ footer .copyright {
     font-size: 1.6rem;
   }
 
+  /* pipeline stacks vertically with downward-flowing connectors */
+  .pipeline {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .stage {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+  .stage:hover {
+    transform: none;
+  }
+  .connector {
+    flex: 0 0 26px;
+    width: 2px;
+    height: 26px;
+    align-self: center;
+  }
+  .connector::after {
+    top: 0;
+    left: 50%;
+    margin-top: 0;
+    margin-left: -3.5px;
+    animation-name: flowV;
+  }
+
   .code-panel pre {
     font-size: 0.74rem;
     padding: 1rem;
-  }
-
-  /* dashboard charts stack to a single column */
-  .chart-grid {
-    grid-template-columns: 1fr;
-  }
-  .chart-wrap {
-    height: 220px;
   }
 }

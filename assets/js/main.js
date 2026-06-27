@@ -54,41 +54,19 @@
           "hl.m1": "Colaboradores analisados em projetos de remuneração e carreira",
           "hl.m2": "Ganhos de produtividade em iniciativas de melhoria contínua",
           "hl.m3": "Equipes mentoradas em metodologia Lean",
-          "ina.label": "Crédito & Risco",
-          "ina.title": "Inadimplência do crédito — instituições públicas",
-          "ina.intro":
-            "Dashboard ao vivo da taxa de inadimplência da carteira de crédito das instituições financeiras sob controle público — dados abertos do Banco Central do Brasil, o tipo de indicador de risco que acompanho no dia a dia.",
-          "ina.current": "Taxa atual",
-          "ina.change": "Variação no mês",
-          "ina.change12": "Variação em 12 meses",
-          "ina.avg": "Média (3 anos)",
-          "ina.min": "Mínima (3 anos)",
-          "ina.max": "Máxima (3 anos)",
-          "ina.chart": "Evolução mensal (últimos 36 meses)",
-          "ina.series": "Inadimplência (%)",
-          "ina.avgline": "Média do período",
-          "ina.loading": "Carregando dados ao vivo…",
-          "ina.error": "Não foi possível carregar os dados ao vivo.",
-          "ina.source": "Fonte",
-          "ina.metatitle": "Ficha técnica do indicador",
-          "ina.m_measure": "O que mede",
-          "ina.m_measure_v": "Percentual da carteira de crédito com atraso superior a 90 dias.",
-          "ina.m_scope": "Abrangência",
-          "ina.m_scope_v": "Instituições financeiras sob controle público (Total).",
-          "ina.m_unit": "Unidade",
-          "ina.m_unit_v": "% (percentual)",
-          "ina.m_freq": "Periodicidade",
-          "ina.m_freq_v": "Mensal",
-          "ina.m_series": "Série (SGS)",
-          "ina.m_period": "Período coberto",
-          "ina.m_updated": "Última atualização",
-          "ina.m_count": "Observações",
-          "sk.label": "Habilidades na prática",
-          "sk.title": "O código por trás do dashboard",
-          "sk.intro":
-            "Os mesmos dados de inadimplência acima, manipulados com as ferramentas que uso no dia a dia. Clique nas abas para navegar.",
-          "sk.note":
-            "Exemplos reais sobre a série 13667 do Banco Central. As abas alternam automaticamente.",
+          "pipe.label": "Pipeline",
+          "pipe.title": "Como eu construo um pipeline de dados",
+          "pipe.intro":
+            "Um pipeline ETL sobre a inadimplência do crédito público (série 13667 do Banco Central) — clique em cada etapa para ver o código. O fluxo de dados anima da extração até a entrega.",
+          "pipe.s0name": "Extract",
+          "pipe.s0desc": "Lê a série 13667 (inadimplência) do data lake.",
+          "pipe.s1name": "Transform",
+          "pipe.s1desc": "Calcula média móvel de 3 meses e variação mensal.",
+          "pipe.s2name": "Load",
+          "pipe.s2desc": "Persiste a série curada e agenda a execução mensal.",
+          "pipe.note":
+            "Exemplo baseado na série 13667 (inadimplência do crédito público). Clique nas etapas para navegar.",
+          "pipe.source": "Fonte: Banco Central do Brasil — Dados Abertos (SGS 13667)",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -150,41 +128,19 @@
           "hl.m1": "Employees analyzed in compensation and career projects",
           "hl.m2": "Productivity gains in continuous improvement initiatives",
           "hl.m3": "Teams mentored in Lean methodology",
-          "ina.label": "Credit & Risk",
-          "ina.title": "Credit default rate — public institutions",
-          "ina.intro":
-            "Live dashboard of the credit default rate (inadimplência) for publicly-controlled financial institutions — open data from the Central Bank of Brazil, the kind of risk indicator I track day to day.",
-          "ina.current": "Current rate",
-          "ina.change": "Change this month",
-          "ina.change12": "Change over 12 months",
-          "ina.avg": "Average (3 years)",
-          "ina.min": "Low (3 years)",
-          "ina.max": "High (3 years)",
-          "ina.chart": "Monthly evolution (last 36 months)",
-          "ina.series": "Default rate (%)",
-          "ina.avgline": "Period average",
-          "ina.loading": "Loading live data…",
-          "ina.error": "Could not load live data.",
-          "ina.source": "Source",
-          "ina.metatitle": "Indicator fact sheet",
-          "ina.m_measure": "What it measures",
-          "ina.m_measure_v": "Share of the credit portfolio overdue by more than 90 days.",
-          "ina.m_scope": "Scope",
-          "ina.m_scope_v": "Publicly-controlled financial institutions (Total).",
-          "ina.m_unit": "Unit",
-          "ina.m_unit_v": "% (percentage)",
-          "ina.m_freq": "Frequency",
-          "ina.m_freq_v": "Monthly",
-          "ina.m_series": "Series (SGS)",
-          "ina.m_period": "Period covered",
-          "ina.m_updated": "Last updated",
-          "ina.m_count": "Data points",
-          "sk.label": "Skills in action",
-          "sk.title": "The code behind the dashboard",
-          "sk.intro":
-            "The same default-rate data above, handled with the tools I use day to day. Click the tabs to navigate.",
-          "sk.note":
-            "Real examples over the Central Bank's series 13667. Tabs rotate automatically.",
+          "pipe.label": "Pipeline",
+          "pipe.title": "How I build a data pipeline",
+          "pipe.intro":
+            "An ETL pipeline over the public-credit default rate (Central Bank series 13667) — click each stage to see the code. Data flows from extraction through to delivery.",
+          "pipe.s0name": "Extract",
+          "pipe.s0desc": "Reads series 13667 (default rate) from the data lake.",
+          "pipe.s1name": "Transform",
+          "pipe.s1desc": "Computes a 3-month moving average and monthly change.",
+          "pipe.s2name": "Load",
+          "pipe.s2desc": "Persists the curated series and schedules the monthly run.",
+          "pipe.note":
+            "Example based on series 13667 (public-credit default rate). Click the stages to navigate.",
+          "pipe.source": "Source: Central Bank of Brazil — Open Data (SGS 13667)",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -206,7 +162,6 @@
           el.classList.toggle("active", el.getAttribute("data-lang") === lang);
         });
         localStorage.setItem("lang", lang);
-        document.dispatchEvent(new CustomEvent("langchange", { detail: lang }));
       }
 
       const saved = localStorage.getItem("lang") || "pt";
@@ -219,331 +174,81 @@
 
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      /* ---------- Live dashboard: credit default rate (BCB SGS 13667) ---------- */
-      const SGS = "https://api.bcb.gov.br/dados/serie/bcdata.sgs";
-      const MONTHS = {
-        pt: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"],
-        en: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      };
-      const ACCENT = "#22d3ee";
-      const GRID = "rgba(51, 65, 85, 0.4)";
-      const AXIS = "#94a3b8";
-
-      function curLang() {
-        return localStorage.getItem("lang") || "pt";
-      }
-
-      function brDateStr(date) {
-        const dd = String(date.getDate()).padStart(2, "0");
-        const mm = String(date.getMonth() + 1).padStart(2, "0");
-        return `${dd}/${mm}/${date.getFullYear()}`;
-      }
-
-      // Date-range queries are more reliable than `ultimos/N` for longer windows.
-      // The BCB API also occasionally returns a transient 400 under load — retry with backoff.
-      async function fetchRange(code, monthsBack, attempts = 5) {
-        const end = new Date();
-        const start = new Date();
-        start.setMonth(start.getMonth() - monthsBack);
-        const url = `${SGS}.${code}/dados?formato=json&dataInicial=${brDateStr(start)}&dataFinal=${brDateStr(end)}`;
-        for (let i = 0; i < attempts; i++) {
-          try {
-            const res = await fetch(url);
-            if (!res.ok) throw new Error(`HTTP ${res.status} for series ${code}`);
-            return await res.json();
-          } catch (e) {
-            if (i === attempts - 1) throw e;
-            await new Promise((r) => setTimeout(r, 400 * (i + 1)));
-          }
-        }
-      }
-
-      function parseBrDate(s) {
-        const [d, m, y] = s.split("/").map(Number);
-        return new Date(y, m - 1, d);
-      }
-
-      function fmtNumber(raw, digits = 2) {
-        return Number(raw).toLocaleString(curLang() === "pt" ? "pt-BR" : "en-US", {
-          minimumFractionDigits: digits,
-          maximumFractionDigits: digits,
-        });
-      }
-
-      function fmtMonth(date) {
-        return `${MONTHS[curLang()][date.getMonth()]}/${String(date.getFullYear()).slice(2)}`;
-      }
-
-      let inaData = null; // [{ date, value }] sorted ascending
-      let inaChart = null;
-
-      function setKpi(kind, value, dateText, cls) {
-        const card = document.querySelector(`#inaKpis .kpi[data-kind="${kind}"]`);
-        if (!card) return;
-        const valueEl = card.querySelector(".kpi-value");
-        valueEl.textContent = value;
-        valueEl.classList.remove("error", "up", "down");
-        if (cls) valueEl.classList.add(cls);
-        card.querySelector(".kpi-date").textContent = dateText || "";
-      }
-
-      function avgOf(arr) {
-        return arr.reduce((s, v) => s + v, 0) / arr.length;
-      }
-
-      function ppDelta(kind, diff, dateText) {
-        const sign = diff > 0 ? "+" : diff < 0 ? "−" : "";
-        const cls = diff > 0 ? "up" : diff < 0 ? "down" : null;
-        setKpi(kind, `${sign}${fmtNumber(Math.abs(diff))} pp`, dateText, cls);
-      }
-
-      function renderKpis() {
-        if (!inaData || !inaData.length) return;
-        const last = inaData[inaData.length - 1];
-        const prev = inaData[inaData.length - 2];
-        const yearAgo = inaData[inaData.length - 13];
-        const values = inaData.map((p) => p.value);
-        const minVal = Math.min(...values);
-        const maxVal = Math.max(...values);
-        const minPt = inaData.find((p) => p.value === minVal);
-        const maxPt = inaData.find((p) => p.value === maxVal);
-
-        setKpi("current", `${fmtNumber(last.value)} %`, fmtMonth(last.date));
-        if (prev) ppDelta("change", last.value - prev.value, fmtMonth(prev.date));
-        if (yearAgo) ppDelta("change12", last.value - yearAgo.value, fmtMonth(yearAgo.date));
-        setKpi("avg", `${fmtNumber(avgOf(values))} %`, `${inaData.length} ${curLang() === "pt" ? "meses" : "months"}`);
-        setKpi("min", `${fmtNumber(minVal)} %`, fmtMonth(minPt.date));
-        setKpi("max", `${fmtNumber(maxVal)} %`, fmtMonth(maxPt.date));
-
-        // fact-sheet dynamic fields
-        const fmtFull = (d) =>
-          `${MONTHS[curLang()][d.getMonth()]}/${d.getFullYear()}`;
-        const periodEl = document.getElementById("metaPeriod");
-        const updatedEl = document.getElementById("metaUpdated");
-        const countEl = document.getElementById("metaCount");
-        if (periodEl) periodEl.textContent = `${fmtFull(inaData[0].date)} – ${fmtFull(last.date)}`;
-        if (updatedEl) updatedEl.textContent = fmtFull(last.date);
-        if (countEl) countEl.textContent = String(inaData.length);
-      }
-
-      function renderChart() {
-        if (!inaData || typeof Chart === "undefined") return;
-        if (inaChart) inaChart.destroy();
-        const values = inaData.map((p) => p.value);
-        const lastIndex = inaData.length - 1;
-        const avg = avgOf(values);
-        const dict = translations[curLang()];
-        inaChart = new Chart(document.getElementById("chartIna"), {
-          type: "line",
-          data: {
-            labels: inaData.map((p) => fmtMonth(p.date)),
-            datasets: [
-              {
-                label: dict["ina.series"],
-                data: values,
-                borderColor: ACCENT,
-                backgroundColor: "rgba(34, 211, 238, 0.12)",
-                fill: true,
-                tension: 0.3,
-                pointRadius: (ctx) => (ctx.dataIndex === lastIndex ? 5 : 2),
-                pointHoverRadius: 6,
-                pointBackgroundColor: (ctx) =>
-                  ctx.dataIndex === lastIndex ? "#fff" : ACCENT,
-                borderWidth: 2,
-                order: 2,
-              },
-              {
-                label: dict["ina.avgline"],
-                data: values.map(() => avg),
-                borderColor: "#94a3b8",
-                borderDash: [6, 5],
-                borderWidth: 1.5,
-                pointRadius: 0,
-                pointHoverRadius: 0,
-                fill: false,
-                order: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: { duration: 600 },
-            interaction: { mode: "index", intersect: false },
-            plugins: {
-              legend: {
-                display: true,
-                position: "bottom",
-                labels: { color: AXIS, usePointStyle: true, boxWidth: 8, padding: 16 },
-              },
-              tooltip: {
-                callbacks: {
-                  title: (items) => {
-                    const d = inaData[items[0].dataIndex].date;
-                    return `${MONTHS[curLang()][d.getMonth()]}/${d.getFullYear()}`;
-                  },
-                  label: (c) => `${c.dataset.label}: ${c.parsed.y.toFixed(2)}%`,
-                },
-              },
-            },
-            scales: {
-              x: {
-                ticks: { color: AXIS, maxRotation: 0, autoSkip: true, maxTicksLimit: 9 },
-                grid: { color: GRID },
-              },
-              y: {
-                ticks: { color: AXIS, callback: (v) => `${Number(v).toFixed(1)}%` },
-                grid: { color: GRID },
-              },
-            },
-          },
-        });
-      }
-
-      function showInaError(status) {
-        status.textContent = translations[curLang()]["ina.error"];
-        status.classList.add("error");
-        document.querySelectorAll("#inaKpis .kpi-value").forEach((el) => {
-          el.textContent = "—";
-          el.classList.add("error");
-        });
-      }
-
-      async function loadInadimplencia() {
-        const status = document.getElementById("inaStatus");
-        if (typeof Chart === "undefined") {
-          showInaError(status);
-          return;
-        }
-        try {
-          const raw = await fetchRange(13667, 37); // monthly default rate, last ~3 years
-          inaData = raw
-            .map((p) => ({ date: parseBrDate(p.data), value: Number(p.valor) }))
-            .sort((a, b) => a.date - b.date)
-            .slice(-36);
-          renderKpis();
-          renderChart();
-          status.classList.add("hidden");
-        } catch (e) {
-          showInaError(status);
-          console.error(e);
-        }
-      }
-
-      document.addEventListener("langchange", () => {
-        if (!inaData) return;
-        renderKpis();
-        renderChart();
-      });
-
-      loadInadimplencia();
-
-      /* ---------- Skills in action: animated, syntax-highlighted code ---------- */
-      const skillSnippets = [
+      /* ---------- ETL Pipeline showcase ---------- */
+      const snippets = [
         {
-          fname: "fetch_inadimplencia.py",
-          lang: "python",
-          code: `# Inadimplencia (BCB SGS 13667) -> pandas
-import requests
-import pandas as pd
-
-URL = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.13667/dados"
-dados = requests.get(URL, params={"formato": "json"}).json()
-
-df = pd.DataFrame(dados)
-df["data"] = pd.to_datetime(df["data"], dayfirst=True)
-df["valor"] = df["valor"].astype(float)
-
-atual = df["valor"].iloc[-1]
-variacao = atual - df["valor"].iloc[-2]
-print(f"Inadimplencia: {atual:.2f}% ({variacao:+.2f} p.p.)")`,
-        },
-        {
-          fname: "analise.sql",
+          fname: "extract.sql",
           lang: "sql",
-          code: `-- Pico e media movel de 3 meses da inadimplencia
+          code: `-- Extract: serie 13667 - inadimplencia do credito publico (BCB)
 SELECT
-    data_ref,
-    valor AS inadimplencia,
-    AVG(valor) OVER (
-        ORDER BY data_ref
-        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
-    ) AS media_movel_3m
-FROM credito.inadimplencia_publica
-ORDER BY data_ref DESC
-LIMIT 12;`,
+    data_referencia,
+    valor AS inadimplencia_pct
+FROM raw.bcb_sgs
+WHERE serie_id = 13667
+  AND data_referencia >= date_add('year', -3, current_date)
+ORDER BY data_referencia;`,
         },
         {
           fname: "transform.py",
           lang: "python",
-          code: `# Agregacao anual da inadimplencia (PySpark / Databricks)
+          code: `# Transform: media movel e variacao mensal da inadimplencia
 from pyspark.sql import functions as F
+from pyspark.sql import Window
 
-ina = spark.table("credito.inadimplencia_publica")
+ordem = Window.orderBy("data_referencia")
 
-anual = (
-    ina.withColumn("ano", F.year("data_ref"))
-       .groupBy("ano")
-       .agg(
-           F.round(F.max("valor"), 2).alias("pico"),
-           F.round(F.avg("valor"), 2).alias("media"),
-           F.round(F.min("valor"), 2).alias("minima"),
-       )
-       .orderBy("ano")
-)
-anual.display()`,
+inadimplencia = (
+    spark.table("raw.bcb_sgs")
+    .filter(F.col("serie_id") == 13667)
+    .withColumn("inadimplencia", F.col("valor").cast("double"))
+    .withColumn(
+        "media_movel_3m",
+        F.avg("inadimplencia").over(ordem.rowsBetween(-2, 0)),
+    )
+    .withColumn(
+        "variacao_pp",
+        F.col("inadimplencia") - F.lag("inadimplencia").over(ordem),
+    )
+)`,
         },
         {
-          fname: "medida.dax",
-          lang: "dax",
-          code: `-- Variacao mensal da inadimplencia (Power BI)
-Variacao Inadimplencia =
-VAR UltimaData = MAX ( Inadimplencia[Data] )
-VAR Atual =
-    CALCULATE ( MAX ( Inadimplencia[Valor] ), Inadimplencia[Data] = UltimaData )
-VAR Anterior =
-    CALCULATE (
-        MAX ( Inadimplencia[Valor] ),
-        Inadimplencia[Data] = EDATE ( UltimaData, -1 )
-    )
-RETURN
-    Atual - Anterior`,
+          fname: "load.py",
+          lang: "python",
+          code: `# Load: grava serie curada em Delta Lake
+(inadimplencia.write
+    .format("delta")
+    .mode("overwrite")
+    .saveAsTable("analytics.inadimplencia_credito_publico"))
+
+# Orquestracao mensal com Airflow (BCB publica dados mensais)
+with DAG("etl_inadimplencia_bcb",
+         schedule="0 6 2 * *",
+         catchup=False) as dag:
+    extract >> transform >> load`,
         },
       ];
-
-      const LANGS = {
-        python: {
-          comment: "#[^\\n]*",
-          kw: "import|from|as|def|return|with|for|if|else|elif|in|not|and|or|lambda|True|False|None|print",
-          fn: "requests|pd|spark|F",
-        },
-        sql: {
-          comment: "--[^\\n]*",
-          kw: "SELECT|FROM|WHERE|AS|AVG|SUM|MAX|MIN|COUNT|OVER|ORDER|BY|ROWS|BETWEEN|PRECEDING|CURRENT|ROW|LIMIT|DESC|ASC|GROUP|HAVING|AND|OR|PARTITION|ON",
-          fn: "",
-        },
-        dax: {
-          comment: "--[^\\n]*",
-          kw: "VAR|RETURN|CALCULATE|MAX|MIN|SUM|AVERAGE|EDATE|FILTER|ALL|VALUES|DIVIDE|IF",
-          fn: "",
-        },
-      };
 
       function escapeHtml(s) {
         return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
       }
 
       function highlight(code, lang) {
-        const cfg = LANGS[lang] || LANGS.python;
-        const parts = [
-          "(?<com>" + cfg.comment + ")",
-          "(?<str>'[^']*'|\"[^\"]*\")",
-          "(?<fld>\\[[A-Za-z_][\\w ]*\\])",
-          "(?<num>\\b\\d+(?:\\.\\d+)?\\b)",
-          "(?<kw>\\b(?:" + cfg.kw + ")\\b)",
-        ];
-        if (cfg.fn) parts.push("(?<fn>\\b(?:" + cfg.fn + ")\\b)");
-        const master = new RegExp(parts.join("|"), "g");
+        const isSql = lang === "sql";
+        const comment = isSql ? "--[^\\n]*" : "#[^\\n]*";
+        const keywords = isSql
+          ? "SELECT|FROM|WHERE|AND|OR|AS|GROUP\\s+BY|ORDER\\s+BY|JOIN|ON|CASE|WHEN|THEN|ELSE|END"
+          : "from|import|with|as|def|return|lambda|True|False|None|in|for|if";
+        const builtins = isSql
+          ? "current_date|SUM|AVG|COUNT|MIN|MAX"
+          : "spark|DAG|datetime|F";
+        const master = new RegExp(
+          "(?<com>" + comment + ")" +
+            "|(?<str>'[^']*'|\"[^\"]*\")" +
+            "|(?<num>\\b\\d+(?:\\.\\d+)?\\b)" +
+            "|(?<kw>\\b(?:" + keywords + ")\\b)" +
+            "|(?<fn>\\b(?:" + builtins + ")\\b)",
+          "g"
+        );
         let out = "",
           last = 0,
           m;
@@ -554,8 +259,6 @@ RETURN
             ? "tok-com"
             : g.str
             ? "tok-str"
-            : g.fld
-            ? "tok-fld"
             : g.num
             ? "tok-num"
             : g.kw
@@ -568,35 +271,35 @@ RETURN
         return out;
       }
 
-      const skillTabs = [...document.querySelectorAll("#skillTabs .skill-tab")];
-      const skBody = document.getElementById("skBody");
-      const skFname = document.getElementById("skFname");
-      const skPre = skBody.parentElement;
-      let skActive = 0;
-      let skTimer = null;
+      const stages = [...document.querySelectorAll("#pipeline .stage")];
+      const codeBody = document.getElementById("codeBody");
+      const codeFname = document.getElementById("codeFname");
+      const codePre = codeBody.parentElement;
+      let activeStage = 0;
+      let cycleTimer = null;
 
-      function setSkill(i, fromUser) {
-        skActive = i;
-        skillTabs.forEach((t, idx) => t.classList.toggle("active", idx === i));
-        skPre.classList.add("fade");
+      function setStage(i, fromUser) {
+        activeStage = i;
+        stages.forEach((s, idx) => s.classList.toggle("active", idx === i));
+        codePre.classList.add("fade");
         setTimeout(() => {
-          skFname.textContent = skillSnippets[i].fname;
-          skBody.innerHTML = highlight(skillSnippets[i].code, skillSnippets[i].lang);
-          skPre.classList.remove("fade");
-        }, 220);
-        if (fromUser) restartSkillCycle();
+          codeFname.textContent = snippets[i].fname;
+          codeBody.innerHTML = highlight(snippets[i].code, snippets[i].lang);
+          codePre.classList.remove("fade");
+        }, 200);
+        if (fromUser) restartCycle();
       }
 
-      function nextSkill() {
-        setSkill((skActive + 1) % skillSnippets.length);
+      function nextStage() {
+        setStage((activeStage + 1) % snippets.length);
       }
 
-      function restartSkillCycle() {
-        clearInterval(skTimer);
-        skTimer = setInterval(nextSkill, 4500);
+      function restartCycle() {
+        clearInterval(cycleTimer);
+        cycleTimer = setInterval(nextStage, 5000);
       }
 
-      skillTabs.forEach((t, idx) => t.addEventListener("click", () => setSkill(idx, true)));
+      stages.forEach((s, idx) => s.addEventListener("click", () => setStage(idx, true)));
 
-      skBody.innerHTML = highlight(skillSnippets[0].code, skillSnippets[0].lang);
-      restartSkillCycle();
+      codeBody.innerHTML = highlight(snippets[0].code, snippets[0].lang);
+      restartCycle();
