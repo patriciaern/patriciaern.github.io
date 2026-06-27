@@ -67,6 +67,12 @@
           "ina.loading": "Carregando dados ao vivo…",
           "ina.error": "Não foi possível carregar os dados ao vivo.",
           "ina.source": "Fonte",
+          "sk.label": "Habilidades na prática",
+          "sk.title": "O código por trás do dashboard",
+          "sk.intro":
+            "Os mesmos dados de inadimplência acima, manipulados com as ferramentas que uso no dia a dia. Clique nas abas para navegar.",
+          "sk.note":
+            "Exemplos reais sobre a série 13667 do Banco Central. As abas alternam automaticamente.",
           "edu.label": "Formação",
           "edu.title": "Formação acadêmica",
           "edu.degree": "Bacharelado em Engenharia Mecânica",
@@ -141,6 +147,12 @@
           "ina.loading": "Loading live data…",
           "ina.error": "Could not load live data.",
           "ina.source": "Source",
+          "sk.label": "Skills in action",
+          "sk.title": "The code behind the dashboard",
+          "sk.intro":
+            "The same default-rate data above, handled with the tools I use day to day. Click the tabs to navigate.",
+          "sk.note":
+            "Real examples over the Central Bank's series 13667. Tabs rotate automatically.",
           "edu.label": "Education",
           "edu.title": "Academic background",
           "edu.degree": "Bachelor's in Mechanical Engineering",
@@ -346,3 +358,166 @@
       });
 
       loadInadimplencia();
+
+      /* ---------- Skills in action: animated, syntax-highlighted code ---------- */
+      const skillSnippets = [
+        {
+          fname: "fetch_inadimplencia.py",
+          lang: "python",
+          code: `# Inadimplencia (BCB SGS 13667) -> pandas
+import requests
+import pandas as pd
+
+URL = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.13667/dados"
+dados = requests.get(URL, params={"formato": "json"}).json()
+
+df = pd.DataFrame(dados)
+df["data"] = pd.to_datetime(df["data"], dayfirst=True)
+df["valor"] = df["valor"].astype(float)
+
+atual = df["valor"].iloc[-1]
+variacao = atual - df["valor"].iloc[-2]
+print(f"Inadimplencia: {atual:.2f}% ({variacao:+.2f} p.p.)")`,
+        },
+        {
+          fname: "analise.sql",
+          lang: "sql",
+          code: `-- Pico e media movel de 3 meses da inadimplencia
+SELECT
+    data_ref,
+    valor AS inadimplencia,
+    AVG(valor) OVER (
+        ORDER BY data_ref
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS media_movel_3m
+FROM credito.inadimplencia_publica
+ORDER BY data_ref DESC
+LIMIT 12;`,
+        },
+        {
+          fname: "transform.py",
+          lang: "python",
+          code: `# Agregacao anual da inadimplencia (PySpark / Databricks)
+from pyspark.sql import functions as F
+
+ina = spark.table("credito.inadimplencia_publica")
+
+anual = (
+    ina.withColumn("ano", F.year("data_ref"))
+       .groupBy("ano")
+       .agg(
+           F.round(F.max("valor"), 2).alias("pico"),
+           F.round(F.avg("valor"), 2).alias("media"),
+           F.round(F.min("valor"), 2).alias("minima"),
+       )
+       .orderBy("ano")
+)
+anual.display()`,
+        },
+        {
+          fname: "medida.dax",
+          lang: "dax",
+          code: `-- Variacao mensal da inadimplencia (Power BI)
+Variacao Inadimplencia =
+VAR UltimaData = MAX ( Inadimplencia[Data] )
+VAR Atual =
+    CALCULATE ( MAX ( Inadimplencia[Valor] ), Inadimplencia[Data] = UltimaData )
+VAR Anterior =
+    CALCULATE (
+        MAX ( Inadimplencia[Valor] ),
+        Inadimplencia[Data] = EDATE ( UltimaData, -1 )
+    )
+RETURN
+    Atual - Anterior`,
+        },
+      ];
+
+      const LANGS = {
+        python: {
+          comment: "#[^\\n]*",
+          kw: "import|from|as|def|return|with|for|if|else|elif|in|not|and|or|lambda|True|False|None|print",
+          fn: "requests|pd|spark|F",
+        },
+        sql: {
+          comment: "--[^\\n]*",
+          kw: "SELECT|FROM|WHERE|AS|AVG|SUM|MAX|MIN|COUNT|OVER|ORDER|BY|ROWS|BETWEEN|PRECEDING|CURRENT|ROW|LIMIT|DESC|ASC|GROUP|HAVING|AND|OR|PARTITION|ON",
+          fn: "",
+        },
+        dax: {
+          comment: "--[^\\n]*",
+          kw: "VAR|RETURN|CALCULATE|MAX|MIN|SUM|AVERAGE|EDATE|FILTER|ALL|VALUES|DIVIDE|IF",
+          fn: "",
+        },
+      };
+
+      function escapeHtml(s) {
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+
+      function highlight(code, lang) {
+        const cfg = LANGS[lang] || LANGS.python;
+        const parts = [
+          "(?<com>" + cfg.comment + ")",
+          "(?<str>'[^']*'|\"[^\"]*\")",
+          "(?<fld>\\[[A-Za-z_][\\w ]*\\])",
+          "(?<num>\\b\\d+(?:\\.\\d+)?\\b)",
+          "(?<kw>\\b(?:" + cfg.kw + ")\\b)",
+        ];
+        if (cfg.fn) parts.push("(?<fn>\\b(?:" + cfg.fn + ")\\b)");
+        const master = new RegExp(parts.join("|"), "g");
+        let out = "",
+          last = 0,
+          m;
+        while ((m = master.exec(code))) {
+          out += escapeHtml(code.slice(last, m.index));
+          const g = m.groups;
+          const cls = g.com
+            ? "tok-com"
+            : g.str
+            ? "tok-str"
+            : g.fld
+            ? "tok-fld"
+            : g.num
+            ? "tok-num"
+            : g.kw
+            ? "tok-kw"
+            : "tok-fn";
+          out += '<span class="' + cls + '">' + escapeHtml(m[0]) + "</span>";
+          last = m.index + m[0].length;
+        }
+        out += escapeHtml(code.slice(last));
+        return out;
+      }
+
+      const skillTabs = [...document.querySelectorAll("#skillTabs .skill-tab")];
+      const skBody = document.getElementById("skBody");
+      const skFname = document.getElementById("skFname");
+      const skPre = skBody.parentElement;
+      let skActive = 0;
+      let skTimer = null;
+
+      function setSkill(i, fromUser) {
+        skActive = i;
+        skillTabs.forEach((t, idx) => t.classList.toggle("active", idx === i));
+        skPre.classList.add("fade");
+        setTimeout(() => {
+          skFname.textContent = skillSnippets[i].fname;
+          skBody.innerHTML = highlight(skillSnippets[i].code, skillSnippets[i].lang);
+          skPre.classList.remove("fade");
+        }, 220);
+        if (fromUser) restartSkillCycle();
+      }
+
+      function nextSkill() {
+        setSkill((skActive + 1) % skillSnippets.length);
+      }
+
+      function restartSkillCycle() {
+        clearInterval(skTimer);
+        skTimer = setInterval(nextSkill, 4500);
+      }
+
+      skillTabs.forEach((t, idx) => t.addEventListener("click", () => setSkill(idx, true)));
+
+      skBody.innerHTML = highlight(skillSnippets[0].code, skillSnippets[0].lang);
+      restartSkillCycle();

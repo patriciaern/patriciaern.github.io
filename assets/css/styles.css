@@ -463,6 +463,109 @@ header.hero h1 {
   margin-top: 0.5rem;
 }
 
+/* ---------- Skills in action (animated code) ---------- */
+.skill-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.skill-tab {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.skill-tab:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.skill-tab.active {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.code-panel {
+  background: #0b1220;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.code-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--card-border);
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.code-head .dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #475569;
+}
+
+.code-head .fname {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-left: 0.5rem;
+}
+
+.code-panel pre {
+  margin: 0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 0.83rem;
+  line-height: 1.6;
+  color: var(--text);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.code-panel pre.fade {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.tok-kw {
+  color: #c084fc;
+}
+.tok-str {
+  color: #34d399;
+}
+.tok-com {
+  color: #64748b;
+  font-style: italic;
+}
+.tok-num {
+  color: #fbbf24;
+}
+.tok-fn {
+  color: #22d3ee;
+}
+.tok-fld {
+  color: #f472b6;
+}
+
+.skill-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.75rem;
+}
+
 /* ---------- Footer ---------- */
 footer {
   text-align: center;
@@ -504,6 +607,11 @@ footer .copyright {
   }
   h2 {
     font-size: 1.6rem;
+  }
+
+  .code-panel pre {
+    font-size: 0.74rem;
+    padding: 1rem;
   }
 
   /* dashboard charts stack to a single column */
